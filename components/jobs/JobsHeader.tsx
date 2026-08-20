@@ -28,27 +28,27 @@ export default function JobsHeader({ openCount, totalPayout }: JobsHeaderProps) 
                     </p>
                 </div>
 
-                <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
+                <div className="grid grid-cols-2 sm:flex sm:flex-nowrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
                     {/* Jobs count badge */}
-                    <div className="liquid-glass rounded-2xl p-4 px-5 flex flex-col min-w-[130px] border border-emerald-500/20 bg-emerald-950/20 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
-                        <span className="text-[10px] uppercase font-body font-semibold tracking-wider text-emerald-300/70">
+                    <div className="liquid-glass rounded-2xl p-3 sm:p-4 sm:px-5 flex flex-col border border-emerald-500/20 bg-emerald-950/20 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                        <span className="text-[9px] sm:text-[10px] uppercase font-body font-semibold tracking-wider text-emerald-300/70">
                             Available Jobs
                         </span>
-                        <div className="mt-1 flex items-center gap-2">
-                            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                            <span className="text-2xl sm:text-3xl font-heading italic text-emerald-300 tracking-tight leading-none">
+                        <div className="mt-1 flex items-center gap-1.5 sm:gap-2">
+                            <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="text-xl sm:text-2xl md:text-3xl font-heading italic text-emerald-300 tracking-tight leading-none">
                                 {openCount} Open
                             </span>
                         </div>
                     </div>
 
                     {/* Total Pool badge */}
-                    <div className="liquid-glass rounded-2xl p-4 px-5 flex flex-col min-w-[140px] border border-amber-500/20 bg-amber-950/20 shadow-[0_0_20px_rgba(245,158,11,0.1)]">
-                        <span className="text-[10px] uppercase font-body font-semibold tracking-wider text-amber-300/70">
+                    <div className="liquid-glass rounded-2xl p-3 sm:p-4 sm:px-5 flex flex-col border border-amber-500/20 bg-amber-950/20 shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+                        <span className="text-[9px] sm:text-[10px] uppercase font-body font-semibold tracking-wider text-amber-300/70">
                             Reward Pool
                         </span>
-                        <div className="mt-1 flex items-center gap-0.5 text-2xl sm:text-3xl font-heading italic text-amber-300 tracking-tight leading-none">
-                            <IndianRupee size={20} strokeWidth={2.5} />
+                        <div className="mt-1 flex items-center gap-0.5 text-xl sm:text-2xl md:text-3xl font-heading italic text-amber-300 tracking-tight leading-none">
+                            <IndianRupee size={17} strokeWidth={2.5} className="sm:w-5 sm:h-5" />
                             <span>{totalPayout}</span>
                         </div>
                     </div>

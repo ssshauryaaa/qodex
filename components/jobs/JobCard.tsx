@@ -55,24 +55,24 @@ export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: 
         Giant overlapping background numeral with category-specific tint
       */}
       <div 
-        className={`absolute -top-3 left-4 sm:-top-6 sm:left-6 z-0 text-7xl sm:text-8xl md:text-9xl font-heading italic font-bold select-none pointer-events-none tracking-tighter transition-all duration-500 group-hover:-translate-y-1.5 ${theme.numeralColor}`}
+        className={`absolute -top-2 left-3 sm:-top-6 sm:left-6 z-0 text-5xl sm:text-8xl md:text-9xl font-heading italic font-bold select-none pointer-events-none tracking-tighter transition-all duration-500 group-hover:-translate-y-1.5 ${theme.numeralColor}`}
         aria-hidden="true"
       >
         {formattedIndex}
       </div>
 
       {/* Main Liquid Glass Card */}
-      <div className={`relative z-10 liquid-glass rounded-3xl p-5 sm:p-6 transition-all duration-500 hover:-translate-y-1 ${
+      <div className={`relative z-10 liquid-glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 transition-all duration-500 hover:-translate-y-1 ${
         claimed 
           ? "ring-1 ring-emerald-400/40 bg-emerald-950/10 shadow-[0_0_25px_rgba(52,211,153,0.15)]" 
           : `${theme.cardGlow} hover:brightness-105`
       }`}>
-        <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start sm:items-center">
           
           {/* Category Visual Thumbnail */}
           <Link
             href={`/hotspot/${hotspot.id}`}
-            className="relative h-24 w-full sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-2xl bg-black/60 border border-white/15 transition-transform duration-500 group-hover:scale-105 shadow-md"
+            className="relative h-28 sm:h-28 w-full sm:w-28 shrink-0 overflow-hidden rounded-xl sm:rounded-2xl bg-black/60 border border-white/15 transition-transform duration-500 group-hover:scale-105 shadow-md"
           >
             {category && (
               <CategoryIllustration

@@ -303,38 +303,38 @@ export default function PhotoStep({ preview, onSelect, onClear }: PhotoStepProps
           </button>
 
           {/* Quick Preset Samples ("Or try a sample photo") */}
-          <div className="liquid-glass rounded-xl p-3">
-            <div className="flex items-center justify-between text-[11px] font-body text-white/50 mb-2">
+          <div className="liquid-glass rounded-2xl p-2.5 sm:p-3.5">
+            <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-body text-white/50 mb-2 px-0.5">
               <span>Or test with a sample photo</span>
-              <span className="text-white/70 flex items-center gap-1">
-                <Zap size={11} /> 1-Tap Demo
+              <span className="text-white/80 flex items-center gap-1">
+                <Zap size={11} className="text-amber-400" /> 1-Tap Demo
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
               {SAMPLE_PRESETS.map((preset) => (
                 <button
                   key={preset.id}
                   type="button"
                   onClick={() => selectSamplePreset(preset.svg, preset.title)}
-                  className={`group relative flex flex-col items-center overflow-hidden rounded-2xl liquid-glass p-2 text-left transition-all duration-300 hover:-translate-y-1 ${preset.cardGlow} active:scale-95`}
+                  className={`group relative flex flex-col items-center overflow-hidden rounded-xl sm:rounded-2xl liquid-glass p-1.5 sm:p-2 text-left transition-all duration-300 hover:-translate-y-0.5 ${preset.cardGlow} active:scale-95`}
                 >
-                  <div className="relative h-20 sm:h-24 w-full overflow-hidden rounded-xl bg-black/80 border border-white/10 shadow-inner">
+                  <div className="relative h-16 sm:h-24 w-full overflow-hidden rounded-lg sm:rounded-xl bg-black/80 border border-white/10 shadow-inner">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={`data:image/svg+xml;utf8,${encodeURIComponent(preset.svg)}`}
                       alt={preset.title}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className={`absolute top-1.5 left-1.5 rounded-full px-2 py-0.5 text-[8px] sm:text-[9px] font-body font-semibold backdrop-blur-md ${preset.badgeColor}`}>
+                    <div className={`absolute top-1 left-1 sm:top-1.5 sm:left-1.5 rounded-full px-1.5 py-0.5 text-[7px] sm:text-[9px] font-body font-semibold backdrop-blur-md ${preset.badgeColor}`}>
                       {preset.badge}
                     </div>
                   </div>
-                  <div className="mt-2 w-full text-center px-0.5">
-                    <p className="text-xs font-semibold font-body text-white group-hover:text-white transition-colors truncate">
+                  <div className="mt-1.5 w-full text-center px-0.5">
+                    <p className="text-[10px] sm:text-xs font-semibold font-body text-white group-hover:text-white transition-colors truncate">
                       {preset.title}
                     </p>
-                    <p className="text-[10px] text-white/50 font-body truncate mt-0.5 font-light">{preset.desc}</p>
+                    <p className="text-[8px] sm:text-[10px] text-white/50 font-body truncate mt-0.5 font-light">{preset.desc}</p>
                   </div>
                 </button>
               ))}

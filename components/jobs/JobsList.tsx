@@ -59,18 +59,18 @@ export default function JobsList({ initialJobs }: { initialJobs?: (Hotspot & { d
             </div>
 
             {/* Main Content with top clearance for AppNavbar */}
-            <main className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 pt-24 sm:pt-28 space-y-6">
+            <main className="relative z-10 mx-auto w-full max-w-3xl px-3 sm:px-6 pt-24 sm:pt-28 space-y-5 sm:space-y-6">
                 <JobsHeader
                     openCount={openJobs.length}
                     totalPayout={totalPayout}
                 />
 
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3">
                     <JobsSortBar
                         sortBy={sortBy}
                         onChange={setSortBy}
                     />
-                    <span className="text-xs font-body text-white/40">
+                    <span className="text-xs font-body text-white/50 px-1">
                         {openJobs.length} open cleanups in Delhi NCR
                     </span>
                 </div>
