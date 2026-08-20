@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'WasteYatra — Turning Waste Reports Into Paid Jobs',
+  title: 'WasteYatra',
   description:
     'A civic platform connecting citizens who report waste hotspots with informal workers who get paid to fix them — in hours, not weeks.',
 };

@@ -42,20 +42,20 @@ export default function BlurText({ text, className = '' }: BlurTextProps) {
       {words.map((word, i) => (
         <motion.span
           key={i}
-          initial={{ filter: 'blur(10px)', opacity: 0, y: 50 }}
+          initial={{ filter: 'blur(8px)', opacity: 0, y: 14 }}
           animate={
             isVisible
               ? { filter: 'blur(0px)', opacity: 1, y: 0 }
-              : { filter: 'blur(10px)', opacity: 0, y: 50 }
+              : { filter: 'blur(8px)', opacity: 0, y: 14 }
           }
           transition={{
-            duration: 0.7,
-            delay: i * 0.1,
+            duration: 0.6,
+            delay: i * 0.08,
             ease: 'easeOut',
           }}
           style={{
             display: 'inline-block',
-            marginRight: '0.28em',
+            marginRight: '0.25em',
           }}
         >
           {word}
