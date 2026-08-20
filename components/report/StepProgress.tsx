@@ -14,16 +14,16 @@ export default function StepProgress({ current }: { current: ReportStep }) {
   const currentIndex = activeIndex === -1 ? STEPS.length : activeIndex;
 
   return (
-    <div className="flex items-center justify-between pb-4 mb-3 border-b border-white/10">
+    <div className="flex items-center justify-between pb-3 sm:pb-4 mb-3 border-b border-white/10">
       {STEPS.map((step, i) => {
         const isComplete = i < currentIndex;
         const isActive = i === currentIndex;
 
         return (
           <div key={step.id} className="flex flex-1 items-center last:flex-none">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <div
-                className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
+                className={`flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full text-[11px] sm:text-xs font-bold transition-all duration-300 ${
                   isComplete
                     ? "bg-white text-black"
                     : isActive
@@ -32,13 +32,13 @@ export default function StepProgress({ current }: { current: ReportStep }) {
                 }`}
               >
                 {isComplete ? (
-                  <Check size={13} className="animate-scale-in" strokeWidth={3} />
+                  <Check size={12} className="animate-scale-in" strokeWidth={3} />
                 ) : (
                   i + 1
                 )}
               </div>
               <span
-                className={`text-xs font-medium font-body transition-colors duration-300 ${
+                className={`text-[11px] sm:text-xs font-medium font-body transition-colors duration-300 ${
                   isActive ? "text-white" : isComplete ? "text-white/70" : "text-white/30"
                 }`}
               >
@@ -47,7 +47,7 @@ export default function StepProgress({ current }: { current: ReportStep }) {
             </div>
 
             {i < STEPS.length - 1 && (
-              <div className="relative mx-3 h-px flex-1 overflow-hidden rounded-full bg-white/10">
+              <div className="relative mx-1.5 sm:mx-3 h-px flex-1 overflow-hidden rounded-full bg-white/10">
                 <div
                   className="absolute inset-y-0 left-0 rounded-full bg-white/50 transition-all duration-500 ease-out"
                   style={{ width: i < currentIndex ? "100%" : "0%" }}

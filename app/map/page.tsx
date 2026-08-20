@@ -46,35 +46,39 @@ export default function MapPage() {
     );
 
     return (
-        <div className="relative h-dvh w-full bg-black overflow-hidden">
+        <div className="relative h-dvh w-full bg-black overflow-hidden select-none">
 
             {/* ── Layer 0: Full-bleed Leaflet Map ── */}
             <div className="absolute inset-0 z-0">
                 <MapCanvas hotspots={filtered} onSelect={setSelected} selectedId={selected?.id ?? null} />
             </div>
 
-            {/* ── Layer 30: Top Floating Control Dock with clearance below AppNavbar ── */}
-            <div className="absolute top-22 sm:top-24 left-1/2 -translate-x-1/2 z-30 w-[92%] max-w-3xl rounded-3xl liquid-glass px-4 py-2.5 shadow-2xl backdrop-blur-2xl flex flex-wrap items-center justify-between gap-3 animate-fade-in-up">
+            {/* ── Layer 30: Top Floating Control Dock with responsive positioning ── */}
+            <div className="absolute top-20 sm:top-24 left-1/2 -translate-x-1/2 z-30 w-[94%] max-w-3xl rounded-3xl liquid-glass px-3 sm:px-4 py-2 sm:py-2.5 shadow-2xl backdrop-blur-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3 animate-fade-in-up">
                 <MapHeader total={SEED_HOTSPOTS.length} />
 
-                <div className="flex items-center gap-2 min-w-0 max-w-full">
-                    <div className="min-w-0 overflow-x-auto no-scrollbar">
+                <div className="flex items-center gap-2 min-w-0 w-full sm:w-auto">
+                    <div className="min-w-0 w-full sm:w-auto overflow-x-auto no-scrollbar py-0.5">
                         <FilterBar value={statusFilter} onChange={setStatusFilter} counts={counts} total={SEED_HOTSPOTS.length} />
                     </div>
                 </div>
             </div>
 
-            {/* ── Layer 30: Bottom-left Legend Stats Card ── */}
-            <div className="absolute bottom-6 left-4 z-30">
+            {/* ── Layer 30: Bottom-left Legend Stats Card (hidden on mobile if a hotspot is selected) ── */}
+            <div className={`absolute bottom-5 sm:bottom-6 left-3 sm:left-4 z-30 transition-opacity duration-300 ${
+                selected ? "opacity-0 pointer-events-none hidden sm:block sm:opacity-100 sm:pointer-events-auto" : "opacity-100"
+            }`}>
                 <MapLegend counts={counts} />
             </div>
 
-            {/* ── Layer 30: Bottom-right Eco Widget ── */}
-            <div className="absolute bottom-6 right-4 z-30">
+            {/* ── Layer 30: Bottom-right Eco Widget (hidden on mobile if a hotspot is selected) ── */}
+            <div className={`absolute bottom-5 sm:bottom-6 right-3 sm:right-4 z-30 hidden sm:block transition-opacity duration-300 ${
+                selected ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : "opacity-100"
+            }`}>
                 <MapEcoWidget totalPayout={totalPayout} />
             </div>
 
-            {/* ── Layer 40: Hotspot Detail Inspector (sits above all other UI) ── */}
+            {/* ── Layer 40: Hotspot Detail Inspector ── */}
             <HotspotDetailPanel hotspot={selected} onClose={() => setSelected(null)} />
         </div>
     );
