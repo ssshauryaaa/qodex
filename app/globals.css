@@ -1,26 +1,204 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* brand */
+  --color-marigold: #f2872e;
+  --color-marigold-light: #faece7;
+  --color-marigold-dark: #993c1d;
+
+  --color-ink: #1b2430;
+  --color-ink-soft: #2c2c2a;
+
+  --color-teal: #0f6e56;
+  --color-teal-light: #e1f5ee;
+  --color-teal-dark: #04342c;
+
+  /* hotspot status */
+  --color-status-open: #d8432f;
+  --color-status-open-light: #fcebeb;
+  --color-status-claimed: #f0b429;
+  --color-status-claimed-light: #faeeda;
+  --color-status-resolved: #2f9e58;
+  --color-status-resolved-light: #eaf3de;
+
+  /* neutrals */
+  --color-sand: #faf6ef;
+  --color-stone: #6b6459;
+  --color-stone-light: #d3d1c7;
+
+  /* animation tokens */
+  --animate-fade-in-up: fade-in-up 0.45s ease-out both;
+  --animate-scale-in: scale-in 0.3s ease-out both;
+  --animate-pop: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-pin-drop: pin-drop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-ring-pulse: ring-pulse 1.8s ease-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-float-slow: float-slow 6s ease-in-out infinite;
+  --animate-float-medium: float-medium 4.5s ease-in-out infinite;
+  --animate-float-reverse: float-reverse 5.5s ease-in-out infinite;
+  --animate-spin-slow: spin-slow 18s linear infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-laser-scan: laser-scan 2.4s ease-in-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pin-drop {
+  0% {
+    transform: translateY(-28px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes ring-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(3deg);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-4deg);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(2deg);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes laser-scan {
+  0% {
+    top: 0%;
+    opacity: 0.9;
+  }
+  50% {
+    top: 92%;
+    opacity: 0.9;
+  }
+  100% {
+    top: 0%;
+    opacity: 0.9;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-sand);
+  color: var(--color-ink);
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* 
+  Leaflet overrides — keep map layers BELOW our UI overlays.
+  Leaflet defaults: pane=400, overlay=400, shadow=500, marker=600, tooltip=650, popup=700.
+  We compress them all to a low band so our z-20/z-30 overlays always win.
+*/
+.leaflet-pane { z-index: 4 !important; }
+.leaflet-tile-pane { z-index: 2 !important; }
+.leaflet-overlay-pane { z-index: 3 !important; }
+.leaflet-shadow-pane { z-index: 4 !important; }
+.leaflet-marker-pane { z-index: 5 !important; }
+.leaflet-tooltip-pane { z-index: 6 !important; }
+.leaflet-popup-pane { z-index: 7 !important; }
+.leaflet-map-pane { z-index: 1 !important; }
+.leaflet-control { z-index: 8 !important; }
