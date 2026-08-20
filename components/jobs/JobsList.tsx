@@ -6,6 +6,7 @@ import JobsHeader from "./JobsHeader";
 import JobsSortBar from "./JobsSortBar";
 import JobCard from "./JobCard";
 import JobsEmptyState from "./JobsEmptyState";
+import ReportBackground from "@/components/report/ReportBackground";
 
 type SortKey = "distance" | "payout";
 
@@ -46,32 +47,40 @@ export default function JobsList({ initialJobs }: JobsListProps) {
     const totalPayout = openJobs.reduce((sum, j) => sum + j.payout, 0);
 
     return (
-        <div className="min-h-dvh bg-sand pb-16">
-            <JobsHeader openCount={openJobs.length} totalPayout={totalPayout} />
+        <div className="relative min-h-dvh bg-sand pb-16 overflow-x-hidden">
+            {/* Colorful animated background elements */}
+            <ReportBackground />
 
-            <main className="mx-auto -mt-2 w-full max-w-3xl px-4 sm:px-6">
-                <div className="mt-4 flex items-center justify-between">
-                    <h2 className="text-xs font-semibold uppercase tracking-wide text-stone">Open jobs</h2>
-                    <JobsSortBar sortBy={sortBy} onChange={setSortBy} />
-                </div>
+            <main className="relative z-10 mx-auto w-full max-w-3xl px-3 sm:px-6 pt-24 sm:pt-28 space-y-4">
+                <JobsHeader openCount={openJobs.length} totalPayout={totalPayout} />
 
-                <div className="mt-3 space-y-2.5">
-                    {openJobs.length === 0 && <JobsEmptyState />}
-                    {openJobs.map((job) => (
-                        <JobCard
-                            key={job.id}
-                            hotspot={job}
-                            claimed={false}
-                            claiming={claimingId === job.id}
-                            onClaim={() => handleClaim(job.id)}
-                        />
-                    ))}
+                {/* Glassmorphic Container Card wrapping list and controls */}
+                <div className="rounded-3xl border border-white/80 bg-white/85 p-5 sm:p-6 shadow-xl shadow-ink/5 backdrop-blur-xl transition-all duration-300">
+                    <div className="flex items-center justify-between pb-3 border-b border-stone-light/40">
+                        <h2 className="text-xs font-bold uppercase tracking-wider text-stone">Open Jobs Available</h2>
+                        <JobsSortBar sortBy={sortBy} onChange={setSortBy} />
+                    </div>
+
+                    <div className="mt-4 space-y-3">
+                        {openJobs.length === 0 && <JobsEmptyState />}
+                        {openJobs.map((job) => (
+                            <JobCard
+                                key={job.id}
+                                hotspot={job}
+                                claimed={false}
+                                claiming={claimingId === job.id}
+                                onClaim={() => handleClaim(job.id)}
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 {claimedJobs.length > 0 && (
-                    <div className="animate-fade-in-up mt-8">
-                        <h2 className="text-xs font-semibold uppercase tracking-wide text-stone">Claimed by you</h2>
-                        <div className="mt-3 space-y-2.5">
+                    <div className="rounded-3xl border border-white/80 bg-white/85 p-5 sm:p-6 shadow-xl shadow-ink/5 backdrop-blur-xl transition-all duration-300 animate-fade-in-up">
+                        <h2 className="text-xs font-bold uppercase tracking-wider text-stone pb-3 border-b border-stone-light/40">
+                            Claimed by you
+                        </h2>
+                        <div className="mt-4 space-y-3">
                             {claimedJobs.map((job) => (
                                 <JobCard key={job.id} hotspot={job} claimed claiming={false} onClaim={() => { }} />
                             ))}

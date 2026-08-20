@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WasteYatra",
-  description: "Qodex submission",
+  title: 'WasteYatra — Turning Waste Reports Into Paid Jobs',
+  description:
+    'A civic platform connecting citizens who report waste hotspots with informal workers who get paid to fix them — in hours, not weeks.',
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

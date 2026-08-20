@@ -1,7 +1,11 @@
-import Image from "next/image";
+import HeroSection from '@/components/landing/HeroSection';
+import CapabilitiesSection from '@/components/landing/CapabilitiesSection';
 
 export default function Home() {
   return (
-    <h1 className="bg-red-500">ads</h1>
+    <main>
+      <HeroSection />
+      <CapabilitiesSection />
+    </main>
   );
 }

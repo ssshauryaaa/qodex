@@ -23,6 +23,8 @@ export default function FloatingNavbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  if (pathname === '/') return null;
+
   return (
     <nav
       className={`fixed top-4 left-1/2 z-50 -translate-x-1/2 transition-all duration-500 ease-out ${scrolled
