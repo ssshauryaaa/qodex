@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Map, Briefcase, Menu, X, Flag } from "lucide-react";
+import { Map, Briefcase, Menu, X, LayoutDashboard, Sparkles } from "lucide-react";
 import { ArrowUpRight } from "@/components/landing/Icons";
 
 const NAV_LINKS = [
-  { href: "/map", label: "Live Map", icon: Map },
-  { href: "/jobs", label: "Cleanup Jobs", icon: Briefcase },
+  { href: "/map",       label: "Live Map",  icon: Map },
+  { href: "/jobs",      label: "Jobs",       icon: Briefcase },
+  { href: "/impact",    label: "Impact",     icon: Sparkles },
+  { href: "/dashboard", label: "Dashboard",  icon: LayoutDashboard },
 ];
 
 export default function AppNavbar() {
@@ -46,15 +48,15 @@ export default function AppNavbar() {
           <span className="font-heading italic text-xl sm:text-2xl text-white leading-none">wy</span>
         </Link>
 
-        {/* Center pill nav (tablet & desktop) */}
-        <div className="pointer-events-auto hidden md:flex liquid-glass rounded-full px-2 py-1.5 items-center gap-0.5 shadow-lg">
+        {/* Center pill nav (desktop) — scrollable for many links */}
+        <div className="pointer-events-auto hidden md:flex liquid-glass rounded-full px-2 py-1.5 items-center gap-0.5 shadow-lg overflow-x-auto no-scrollbar max-w-[60vw]">
           {NAV_LINKS.map(({ href, label }) => {
             const isActive = pathname === href;
             return (
               <Link
                 key={href}
                 href={href}
-                className={`relative px-4 py-1.5 text-sm font-body rounded-full transition-all duration-200 ${
+                className={`relative px-3.5 py-1.5 text-xs font-body rounded-full whitespace-nowrap transition-all duration-200 ${
                   isActive
                     ? "bg-white/15 text-white font-medium"
                     : "text-white/70 hover:text-white hover:bg-white/5"
@@ -69,14 +71,14 @@ export default function AppNavbar() {
           })}
           <Link
             href="/report"
-            className={`ml-1 flex items-center gap-1.5 text-sm font-body rounded-full px-4 py-1.5 transition-all duration-200 ${
+            className={`ml-1 flex items-center gap-1.5 text-xs font-body rounded-full px-3.5 py-1.5 whitespace-nowrap transition-all duration-200 ${
               pathname === "/report"
                 ? "bg-white/90 text-black font-semibold"
                 : "bg-white text-black font-semibold hover:bg-white/90"
             }`}
           >
             Report
-            <ArrowUpRight size={13} />
+            <ArrowUpRight size={12} />
           </Link>
         </div>
 
@@ -111,42 +113,31 @@ export default function AppNavbar() {
       {/* Mobile Drawer Dropdown */}
       {mobileMenuOpen && (
         <div className="fixed inset-x-4 top-16 z-50 md:hidden animate-fade-in-up">
-          <div className="liquid-glass-strong rounded-2xl p-4 shadow-2xl space-y-1">
-            <Link
-              href="/"
-              className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-body transition-colors ${
-                pathname === "/" ? "bg-white/15 text-white font-semibold" : "text-white/70 hover:text-white"
-              }`}
-            >
-              <span>Home</span>
-            </Link>
-            <Link
-              href="/map"
-              className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-body transition-colors ${
-                pathname === "/map" ? "bg-white/15 text-white font-semibold" : "text-white/70 hover:text-white"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <Map size={15} className="text-white/60" />
-                <span>Live Map</span>
-              </div>
-              <span className="text-[10px] text-emerald-400 font-medium">Real-time</span>
-            </Link>
-            <Link
-              href="/jobs"
-              className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-body transition-colors ${
-                pathname === "/jobs" ? "bg-white/15 text-white font-semibold" : "text-white/70 hover:text-white"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <Briefcase size={15} className="text-white/60" />
-                <span>Cleanup Jobs</span>
-              </div>
-              <span className="text-[10px] text-white/50 font-medium">Earn Payout</span>
-            </Link>
+          <div className="liquid-glass-strong rounded-2xl p-3 shadow-2xl space-y-0.5">
+            {[
+              { href: "/",          label: "Home",           icon: null,              badge: null },
+              { href: "/map",       label: "Live Map",        icon: Map,               badge: "Real-time" },
+              { href: "/jobs",      label: "Cleanup Jobs",    icon: Briefcase,         badge: "Earn Payout" },
+              { href: "/impact",    label: "Live Impact",     icon: Sparkles,          badge: "Proof" },
+              { href: "/dashboard", label: "Dashboard",       icon: LayoutDashboard,   badge: "ULB & CSR" },
+            ].map(({ href, label, icon: Icon, badge }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-body transition-colors ${
+                  pathname === href ? "bg-white/15 text-white font-semibold" : "text-white/70 hover:text-white"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {Icon && <Icon size={14} className="text-white/50" />}
+                  <span>{label}</span>
+                </div>
+                {badge && <span className="text-[10px] text-white/40 font-body">{badge}</span>}
+              </Link>
+            ))}
             <Link
               href="/report"
-              className="mt-2 flex items-center justify-center gap-1.5 bg-white text-black font-semibold text-sm rounded-xl py-2.5 shadow-md"
+              className="mt-1 flex items-center justify-center gap-1.5 bg-white text-black font-semibold text-sm rounded-xl py-2.5 shadow-md"
             >
               <span>Report a Hotspot</span>
               <ArrowUpRight size={14} />
