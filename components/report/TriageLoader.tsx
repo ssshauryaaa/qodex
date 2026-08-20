@@ -27,13 +27,13 @@ export default function TriageLoader({ onComplete }: TriageLoaderProps) {
 
   return (
     <div className="animate-fade-in-up flex flex-col items-center py-10 text-center">
-      <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-marigold-light">
-        <span className="absolute inset-0 rounded-full bg-marigold/30 animate-ring-pulse" />
-        <Sparkles size={26} className="relative text-marigold" strokeWidth={1.75} />
+      <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
+        <span className="absolute inset-0 rounded-full bg-white/5 animate-ring-pulse" />
+        <Sparkles size={26} className="relative text-white/80" strokeWidth={1.75} />
       </div>
 
-      <h2 className="text-lg font-semibold text-ink">AI is triaging your report</h2>
-      <p className="mt-1 text-sm text-stone">This takes just a couple of seconds</p>
+      <h2 className="text-lg font-heading italic text-white tracking-tight">AI is triaging your report</h2>
+      <p className="mt-1 text-sm text-white/50 font-body font-light">This takes just a couple of seconds</p>
 
       <ul className="mt-6 w-full max-w-xs space-y-3 text-left">
         {CHECKS.map((label, i) => {
@@ -42,15 +42,15 @@ export default function TriageLoader({ onComplete }: TriageLoaderProps) {
           return (
             <li
               key={label}
-              className="flex items-center gap-3 rounded-xl border border-stone-light/60 bg-white px-4 py-3 transition-all duration-300"
+              className="flex items-center gap-3 liquid-glass rounded-xl px-4 py-3 transition-all duration-300"
             >
               <span
                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ${
                   isDone
-                    ? "bg-status-resolved text-white"
+                    ? "bg-white text-black"
                     : isActive
-                    ? "bg-marigold-light text-marigold"
-                    : "bg-sand text-stone-light"
+                    ? "bg-white/20 text-white"
+                    : "bg-white/5 text-white/20"
                 }`}
               >
                 {isDone ? (
@@ -62,8 +62,8 @@ export default function TriageLoader({ onComplete }: TriageLoaderProps) {
                 )}
               </span>
               <span
-                className={`text-sm transition-colors duration-300 ${
-                  isDone || isActive ? "text-ink" : "text-stone"
+                className={`text-sm font-body transition-colors duration-300 ${
+                  isDone || isActive ? "text-white" : "text-white/30"
                 }`}
               >
                 {label}

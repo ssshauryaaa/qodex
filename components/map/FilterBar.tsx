@@ -11,18 +11,11 @@ const FILTERS: { id: FilterValue; label: string }[] = [
   { id: "resolved", label: "Resolved" },
 ];
 
-const ACTIVE_STYLES: Record<FilterValue, string> = {
-  all: "bg-ink text-white shadow-xs",
-  open: "bg-status-open text-white shadow-xs",
-  claimed: "bg-status-claimed text-ink shadow-xs",
-  resolved: "bg-status-resolved text-white shadow-xs",
-};
-
 const DOT_STYLES: Record<FilterValue, string> = {
-  all: "bg-ink",
-  open: "bg-status-open",
-  claimed: "bg-status-claimed",
-  resolved: "bg-status-resolved",
+  all: "bg-white",
+  open: "bg-red-400",
+  claimed: "bg-amber-400",
+  resolved: "bg-emerald-400",
 };
 
 interface FilterBarProps {
@@ -43,15 +36,15 @@ export default function FilterBar({ value, onChange, counts, total }: FilterBarP
             key={f.id}
             type="button"
             onClick={() => onChange(f.id)}
-            className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition-all duration-200 ${
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-body transition-all duration-200 ${
               isActive
-                ? `${ACTIVE_STYLES[f.id]} scale-105`
-                : "bg-sand/70 border border-stone-light/40 text-stone hover:bg-white hover:text-ink"
+                ? "bg-white text-black font-semibold shadow-md scale-105"
+                : "liquid-glass text-white/70 hover:text-white hover:brightness-125"
             }`}
           >
-            <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-white" : DOT_STYLES[f.id]}`} />
+            <span className={`h-1.5 w-1.5 rounded-full ${isActive ? "bg-black" : DOT_STYLES[f.id]}`} />
             <span>{f.label}</span>
-            <span className={`text-[10px] ${isActive ? "opacity-80" : "text-stone"}`}>({count})</span>
+            <span className={`text-[10px] ${isActive ? "text-black/60" : "text-white/40"}`}>({count})</span>
           </button>
         );
       })}

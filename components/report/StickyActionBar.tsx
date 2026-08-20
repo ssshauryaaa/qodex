@@ -20,12 +20,12 @@ export default function StickyActionBar({
   isFinalStep,
 }: StickyActionBarProps) {
   return (
-    <div className="flex items-center gap-2.5 rounded-2xl border border-white/80 bg-white/90 p-2 shadow-lg backdrop-blur-xl">
+    <div className="flex items-center gap-2.5 liquid-glass rounded-2xl p-2">
       {showBack && (
         <button
           type="button"
           onClick={onBack}
-          className="flex items-center gap-1 rounded-xl border border-stone-light/60 bg-white px-3.5 py-2.5 text-xs font-semibold text-ink transition-all duration-200 hover:bg-sand active:scale-95 shadow-xs"
+          className="flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-xs font-medium text-white/70 font-body transition-all duration-200 hover:bg-white/10 hover:text-white active:scale-95"
         >
           <ChevronLeft size={15} />
           <span>Back</span>
@@ -36,7 +36,7 @@ export default function StickyActionBar({
         type="button"
         onClick={onContinue}
         disabled={disabled}
-        className="group flex flex-1 items-center justify-center gap-2 rounded-xl bg-marigold px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all duration-200 hover:bg-marigold-dark hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-stone-light/70 disabled:text-stone disabled:shadow-none"
+        className="group flex flex-1 items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-black font-body transition-all duration-200 hover:bg-white/90 hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30 disabled:shadow-none"
       >
         <span>{continueLabel}</span>
         {isFinalStep ? (

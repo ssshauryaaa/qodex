@@ -179,8 +179,9 @@
 }
 
 body {
-  background: var(--color-sand);
-  color: var(--color-ink);
+  background: #000;
+  color: #fff;
+  font-family: 'Barlow', sans-serif;
 }
 
 /* ============================================
@@ -253,6 +254,42 @@ body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
+}
+
+/* ============================================
+   Custom Themed Scrollbar
+   ============================================ */
+
+/* Global scrollbar — thin dark glass style */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

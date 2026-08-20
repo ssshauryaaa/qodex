@@ -7,23 +7,23 @@ import "leaflet/dist/leaflet.css";
 import type { Hotspot } from "@/lib/hotspots";
 
 const COLORS: Record<Hotspot["status"], string> = {
-  open: "#d8432f",
-  claimed: "#f0b429",
-  resolved: "#2f9e58",
+  open: "#f87171",
+  claimed: "#fbbf24",
+  resolved: "#34d399",
 };
 
 function createPinIcon(hotspot: Hotspot, isSelected: boolean) {
   const color = COLORS[hotspot.status];
   const pulse =
     hotspot.status === "open"
-      ? `<span style="position:absolute;inset:-5px;border-radius:9999px;background:${color};opacity:0.35;animation:ring-pulse 2s ease-out infinite;"></span>`
+      ? `<span style="position:absolute;inset:-6px;border-radius:9999px;background:${color};opacity:0.4;animation:ring-pulse 2s ease-out infinite;"></span>`
       : "";
 
   const size = isSelected ? 26 : 20;
   const innerSize = isSelected ? 10 : 8;
 
   const html = `
-    <div style="position:relative;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+    <div style="position:relative;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
       ${pulse}
       <div style="
         position:relative;
@@ -31,8 +31,8 @@ function createPinIcon(hotspot: Hotspot, isSelected: boolean) {
         height:${size}px;
         border-radius:9999px;
         background:${color};
-        border:2.5px solid white;
-        box-shadow:0 3px 10px rgba(0,0,0,0.22);
+        border:2px solid rgba(255,255,255,0.9);
+        box-shadow:0 0 14px ${color}80, 0 4px 10px rgba(0,0,0,0.6);
         display:flex;
         align-items:center;
         justify-content:center;
@@ -46,9 +46,9 @@ function createPinIcon(hotspot: Hotspot, isSelected: boolean) {
   return L.divIcon({
     html,
     className: "leaflet-minimal-pin",
-    iconSize: [28, 28],
-    iconAnchor: [14, 14],
-    popupAnchor: [0, -14],
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+    popupAnchor: [0, -15],
   });
 }
 
@@ -73,7 +73,7 @@ function MapController({ hotspots, selectedId }: { hotspots: Hotspot[]; selected
     if (hotspots.length > 0) {
       const bounds = L.latLngBounds(hotspots.map((h) => [h.lat, h.lng]));
       map.flyToBounds(bounds, {
-        padding: [60, 60],
+        padding: [80, 80],
         duration: 1.5,
         easeLinearity: 0.25,
       });
@@ -102,11 +102,11 @@ export default function MapCanvas({ hotspots, onSelect, selectedId }: MapCanvasP
       zoom={12}
       scrollWheelZoom
       zoomControl={false}
-      className="h-full w-full rounded-3xl"
+      className="h-full w-full bg-black"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       />
       
       {/* Dynamic Map panning/flying controller */}

@@ -14,7 +14,7 @@ export default function StepProgress({ current }: { current: ReportStep }) {
   const currentIndex = activeIndex === -1 ? STEPS.length : activeIndex;
 
   return (
-    <div className="flex items-center justify-between pb-3 mb-2 border-b border-stone-light/40">
+    <div className="flex items-center justify-between pb-4 mb-3 border-b border-white/10">
       {STEPS.map((step, i) => {
         const isComplete = i < currentIndex;
         const isActive = i === currentIndex;
@@ -25,10 +25,10 @@ export default function StepProgress({ current }: { current: ReportStep }) {
               <div
                 className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
                   isComplete
-                    ? "bg-marigold text-white shadow-xs"
+                    ? "bg-white text-black"
                     : isActive
-                    ? "bg-ink text-white ring-3 ring-marigold-light"
-                    : "bg-white text-stone border border-stone-light/70"
+                    ? "bg-white/20 text-white ring-2 ring-white/40"
+                    : "bg-white/5 text-white/30 border border-white/10"
                 }`}
               >
                 {isComplete ? (
@@ -38,8 +38,8 @@ export default function StepProgress({ current }: { current: ReportStep }) {
                 )}
               </div>
               <span
-                className={`text-xs font-semibold transition-colors duration-300 ${
-                  isActive || isComplete ? "text-ink" : "text-stone"
+                className={`text-xs font-medium font-body transition-colors duration-300 ${
+                  isActive ? "text-white" : isComplete ? "text-white/70" : "text-white/30"
                 }`}
               >
                 {step.label}
@@ -47,9 +47,9 @@ export default function StepProgress({ current }: { current: ReportStep }) {
             </div>
 
             {i < STEPS.length - 1 && (
-              <div className="relative mx-3 h-0.5 flex-1 overflow-hidden rounded-full bg-stone-light/60">
+              <div className="relative mx-3 h-px flex-1 overflow-hidden rounded-full bg-white/10">
                 <div
-                  className="absolute inset-y-0 left-0 rounded-full bg-marigold transition-all duration-500 ease-out"
+                  className="absolute inset-y-0 left-0 rounded-full bg-white/50 transition-all duration-500 ease-out"
                   style={{ width: i < currentIndex ? "100%" : "0%" }}
                 />
               </div>

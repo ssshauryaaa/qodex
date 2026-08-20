@@ -37,33 +37,7 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 flex flex-col h-full">
 
-        {/* Navbar */}
-        <nav className="fixed top-4 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-16">
-          {/* Logo */}
-          <div className="liquid-glass h-12 w-12 rounded-full flex items-center justify-center">
-            <span className="font-heading italic text-2xl text-white leading-none">a</span>
-          </div>
-
-          {/* Center nav links */}
-          <div className="hidden md:flex liquid-glass rounded-full px-1.5 py-1.5 items-center gap-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 py-2 text-sm font-medium text-white/90 font-body hover:text-white transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link href="/report" className="ml-1 flex items-center gap-1.5 bg-white text-black text-sm font-medium font-body px-4 py-2 rounded-full hover:bg-white/90 transition-colors">
-              Report a Hotspot
-              <ArrowUpRight size={14} />
-            </Link>
-          </div>
-
-          {/* Spacer */}
-          <div className="h-12 w-12" />
-        </nav>
+        {/* AppNavbar is rendered globally from layout.tsx */}
 
         {/* Main content */}
         <div className="flex-1 flex flex-col items-center justify-center pt-24 px-4 text-center">

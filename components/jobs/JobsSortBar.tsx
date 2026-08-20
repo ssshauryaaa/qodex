@@ -16,19 +16,25 @@ const OPTIONS: { key: SortKey; label: string; icon: typeof ArrowDownWideNarrow }
 
 export default function JobsSortBar({ sortBy, onChange }: JobsSortBarProps) {
     return (
-        <div className="flex items-center gap-1 rounded-full border border-stone-light/60 bg-white p-1">
-            {OPTIONS.map(({ key, label, icon: Icon }) => (
-                <button
-                    key={key}
-                    type="button"
-                    onClick={() => onChange(key)}
-                    className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold transition-colors ${sortBy === key ? "bg-marigold text-white" : "text-stone hover:text-ink"
+        <div className="flex items-center gap-1 liquid-glass rounded-full p-1">
+            {OPTIONS.map(({ key, label, icon: Icon }) => {
+                const isActive = sortBy === key;
+                return (
+                    <button
+                        key={key}
+                        type="button"
+                        onClick={() => onChange(key)}
+                        className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-body transition-all duration-300 ${
+                            isActive
+                                ? "bg-white text-black font-semibold shadow-md"
+                                : "text-white/60 hover:text-white hover:bg-white/5"
                         }`}
-                >
-                    <Icon size={11} />
-                    {label}
-                </button>
-            ))}
+                    >
+                        <Icon size={12} />
+                        <span>{label}</span>
+                    </button>
+                );
+            })}
         </div>
     );
 }

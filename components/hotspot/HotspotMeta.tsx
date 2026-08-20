@@ -7,29 +7,29 @@ export default function HotspotMeta({ hotspot }: { hotspot: Hotspot }) {
     const severity = SEVERITY_STYLES[hotspot.severity];
 
     return (
-        <div className="animate-fade-in-up grid grid-cols-3 gap-3 rounded-2xl border border-stone-light/60 bg-white p-4 shadow-sm">
-            <div className="flex flex-col items-center gap-1 text-center">
-                <span className={`flex h-9 w-9 items-center justify-center rounded-full ${severity.bg} ${severity.text}`}>
+        <div className="animate-fade-in-up grid grid-cols-3 gap-0 liquid-glass rounded-2xl overflow-hidden">
+            <div className="flex flex-col items-center gap-1.5 text-center p-4">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80">
                     <Layers size={16} />
                 </span>
-                <span className="text-[11px] font-semibold text-ink">{severity.label}</span>
-                <span className="text-[10px] text-stone">Severity</span>
+                <span className="text-xs font-heading italic text-white tracking-tight">{severity.label}</span>
+                <span className="text-[10px] font-body text-white/40 uppercase tracking-wider">Severity</span>
             </div>
 
-            <div className="flex flex-col items-center gap-1 border-x border-stone-light/60 text-center">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-marigold-light text-marigold-dark">
+            <div className="flex flex-col items-center gap-1.5 border-x border-white/10 text-center p-4">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80">
                     <IndianRupee size={16} />
                 </span>
-                <span className="text-[11px] font-semibold text-ink">₹{hotspot.payout}</span>
-                <span className="text-[10px] text-stone">Payout</span>
+                <span className="text-xs font-heading italic text-white tracking-tight">₹{hotspot.payout}</span>
+                <span className="text-[10px] font-body text-white/40 uppercase tracking-wider">Payout</span>
             </div>
 
-            <div className="flex flex-col items-center gap-1 text-center">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-light text-teal-dark">
+            <div className="flex flex-col items-center gap-1.5 text-center p-4">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80">
                     <Hash size={16} />
                 </span>
-                <span className="text-[11px] font-semibold text-ink">{category?.label ?? "—"}</span>
-                <span className="text-[10px] text-stone">Category</span>
+                <span className="text-xs font-heading italic text-white tracking-tight">{category?.label ?? "—"}</span>
+                <span className="text-[10px] font-body text-white/40 uppercase tracking-wider">Category</span>
             </div>
         </div>
     );

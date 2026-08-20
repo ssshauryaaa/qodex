@@ -1,6 +1,6 @@
 "use client";
 
-import { Briefcase, IndianRupee, Sparkles } from "lucide-react";
+import { Briefcase, IndianRupee, Sparkles, MapPin } from "lucide-react";
 
 interface JobsHeaderProps {
     openCount: number;
@@ -9,28 +9,47 @@ interface JobsHeaderProps {
 
 export default function JobsHeader({ openCount, totalPayout }: JobsHeaderProps) {
     return (
-        <header className="rounded-3xl border border-white/80 bg-white/85 p-5 shadow-xl backdrop-blur-xl transition-all duration-300">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-marigold-light text-marigold">
-                        <Briefcase size={20} />
-                    </span>
-                    <div>
-                        <h1 className="text-lg font-bold tracking-tight text-ink">Nearby Cleanup Jobs</h1>
-                        <p className="text-xs text-stone">
-                            Open hotspots near your current geolocation, prioritized by reward payouts.
-                        </p>
+        <header className="liquid-glass rounded-3xl p-6 sm:p-7 relative overflow-hidden transition-all duration-300">
+            {/* Ambient subtle glow inside card */}
+            <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/[0.03] blur-2xl" />
+            
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                    <div className="inline-flex items-center gap-2 liquid-glass rounded-full px-3.5 py-1 text-xs font-body text-white/70 mb-3">
+                        <Sparkles size={13} className="text-white/60 animate-pulse" />
+                        <span>Worker Dispatch & Gig Board</span>
                     </div>
+                    <h1 className="text-3xl sm:text-4xl font-heading italic text-white tracking-tight leading-tight">
+                        Nearby Cleanup Jobs
+                    </h1>
+                    <p className="mt-1 text-xs sm:text-sm text-white/50 font-body font-light max-w-lg leading-relaxed">
+                        Claim open waste hotspots near your GPS coordinates. Complete the cleanup, submit proof, and receive instant payouts.
+                    </p>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <div className="rounded-full bg-sand border border-stone-light/60 px-3 py-1.5 text-xs font-semibold text-ink flex items-center gap-1.5">
-                        <span className="h-2 w-2 rounded-full bg-marigold animate-pulse" />
-                        <span>{openCount} Jobs Open</span>
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
+                    {/* Jobs count badge */}
+                    <div className="liquid-glass rounded-2xl p-3.5 px-4 flex flex-col min-w-[130px]">
+                        <span className="text-[10px] uppercase font-body font-semibold tracking-wider text-white/40">
+                            Available Jobs
+                        </span>
+                        <div className="mt-1 flex items-center gap-2">
+                            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                            <span className="text-2xl font-heading italic text-white tracking-tight leading-none">
+                                {openCount} Open
+                            </span>
+                        </div>
                     </div>
-                    <div className="rounded-full bg-teal-light border border-teal/20 px-3 py-1.5 text-xs font-bold text-teal-dark flex items-center gap-0.5">
-                        <IndianRupee size={12} />
-                        <span>₹{totalPayout} Total Pool</span>
+
+                    {/* Total Pool badge */}
+                    <div className="liquid-glass rounded-2xl p-3.5 px-4 flex flex-col min-w-[140px]">
+                        <span className="text-[10px] uppercase font-body font-semibold tracking-wider text-white/40">
+                            Reward Pool
+                        </span>
+                        <div className="mt-1 flex items-center gap-1 text-2xl font-heading italic text-white tracking-tight leading-none">
+                            <IndianRupee size={18} strokeWidth={2} />
+                            <span>{totalPayout}</span>
+                        </div>
                     </div>
                 </div>
             </div>

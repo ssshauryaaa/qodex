@@ -8,16 +8,14 @@ import MapLegend from "@/components/map/MapLegend";
 import MapEcoWidget from "@/components/map/MapEcoWidget";
 import HotspotDetailPanel from "@/components/map/HotspotDetailPanel";
 import { SEED_HOTSPOTS, type Hotspot, type HotspotStatus } from "@/lib/hotspots";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 
 const MapCanvas = dynamic(() => import("@/components/map/MapCanvas"), {
     ssr: false,
     loading: () => (
-        <div className="flex h-full w-full items-center justify-center bg-sand/80">
-            <div className="flex flex-col items-center gap-2 text-ink">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-marigold border-t-transparent" />
-                <span className="text-xs font-bold tracking-wide">Syncing Delhi Hotspot Grid…</span>
+        <div className="flex h-full w-full items-center justify-center bg-black">
+            <div className="flex flex-col items-center gap-2 text-white">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/80 border-t-transparent" />
+                <span className="text-xs font-body font-light tracking-wide text-white/60">Syncing Delhi Hotspot Grid…</span>
             </div>
         </div>
     ),
@@ -48,35 +46,21 @@ export default function MapPage() {
     );
 
     return (
-        /*
-          Key fix: NO overflow-hidden on this root div.
-          Leaflet uses transform: translate3d on its layers which creates a new
-          containing block, clipping fixed/absolute children when overflow-hidden is set.
-          Instead we let the map canvas fill via absolute inset-0, and keep all UI
-          overlays as siblings with explicit z-index above the Leaflet z-index band.
-        */
-        <div className="relative h-dvh w-full bg-sand">
+        <div className="relative h-dvh w-full bg-black overflow-hidden">
 
             {/* ── Layer 0: Full-bleed Leaflet Map ── */}
             <div className="absolute inset-0 z-0">
                 <MapCanvas hotspots={filtered} onSelect={setSelected} selectedId={selected?.id ?? null} />
             </div>
 
-            {/* ── Layer 30: Top Floating Control Dock (below FloatingNavbar z-50) ── */}
-            <div className="absolute top-20 left-1/2 -translate-x-1/2 z-30 w-[94%] max-w-4xl rounded-2xl border border-white/80 bg-white/90 px-3 py-2.5 shadow-xl backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 animate-fade-in-up">
+            {/* ── Layer 30: Top Floating Control Dock with clearance below AppNavbar ── */}
+            <div className="absolute top-22 sm:top-24 left-1/2 -translate-x-1/2 z-30 w-[92%] max-w-3xl rounded-3xl liquid-glass px-4 py-2.5 shadow-2xl backdrop-blur-2xl flex flex-wrap items-center justify-between gap-3 animate-fade-in-up">
                 <MapHeader total={SEED_HOTSPOTS.length} />
 
                 <div className="flex items-center gap-2 min-w-0 max-w-full">
                     <div className="min-w-0 overflow-x-auto no-scrollbar">
                         <FilterBar value={statusFilter} onChange={setStatusFilter} counts={counts} total={SEED_HOTSPOTS.length} />
                     </div>
-                    <Link
-                        href="/report"
-                        className="flex items-center gap-1 shrink-0 rounded-xl bg-marigold px-3 py-1.5 text-xs font-bold text-white shadow-md transition-all duration-200 hover:bg-marigold-dark hover:scale-105 active:scale-95"
-                    >
-                        <Plus size={14} />
-                        <span className="hidden sm:inline">Report</span>
-                    </Link>
                 </div>
             </div>
 

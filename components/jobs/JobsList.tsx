@@ -6,7 +6,6 @@ import JobsHeader from "./JobsHeader";
 import JobsSortBar from "./JobsSortBar";
 import JobCard from "./JobCard";
 import JobsEmptyState from "./JobsEmptyState";
-import ReportBackground from "@/components/report/ReportBackground";
 
 type SortKey = "distance" | "payout";
 
@@ -28,7 +27,7 @@ export default function JobsList({ initialJobs }: JobsListProps) {
         setTimeout(() => {
             setClaimedIds((prev) => new Set(prev).add(id));
             setClaimingId(null);
-        }, 600);
+        }, 500);
     }
 
     const openJobs = useMemo(
@@ -47,42 +46,74 @@ export default function JobsList({ initialJobs }: JobsListProps) {
     const totalPayout = openJobs.reduce((sum, j) => sum + j.payout, 0);
 
     return (
-        <div className="relative min-h-dvh bg-sand pb-16 overflow-x-hidden">
-            {/* Colorful animated background elements */}
-            <ReportBackground />
+        <div className="relative min-h-screen bg-black text-white pb-24 overflow-x-hidden selection:bg-white selection:text-black">
+            {/* Atmospheric Background Glows & Grid */}
+            <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+                <div className="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-transparent blur-3xl" />
+                <div className="absolute top-1/2 -left-32 h-[450px] w-[450px] rounded-full bg-gradient-to-tr from-white/[0.03] to-transparent blur-3xl" />
+                <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-gradient-to-tl from-white/[0.02] to-transparent blur-3xl" />
+                {/* Subtle dark dot grid */}
+                <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:28px_28px]" />
+            </div>
 
-            <main className="relative z-10 mx-auto w-full max-w-3xl px-3 sm:px-6 pt-24 sm:pt-28 space-y-4">
+            {/* Main Content with top clearance for AppNavbar */}
+            <main className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 pt-24 sm:pt-28 space-y-6">
+
+                {/* Header & Stats */}
                 <JobsHeader openCount={openJobs.length} totalPayout={totalPayout} />
 
-                {/* Glassmorphic Container Card wrapping list and controls */}
-                <div className="rounded-3xl border border-white/80 bg-white/85 p-5 sm:p-6 shadow-xl shadow-ink/5 backdrop-blur-xl transition-all duration-300">
-                    <div className="flex items-center justify-between pb-3 border-b border-stone-light/40">
-                        <h2 className="text-xs font-bold uppercase tracking-wider text-stone">Open Jobs Available</h2>
-                        <JobsSortBar sortBy={sortBy} onChange={setSortBy} />
+                {/* Control & Sorting Bar */}
+                <div className="flex items-center justify-between px-2 pt-2">
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs uppercase font-body font-semibold tracking-wider text-white/40">
+                            Available Hotspots
+                        </span>
+                        <span className="liquid-glass rounded-full px-2 py-0.5 text-[10px] font-body text-white/70">
+                            {openJobs.length}
+                        </span>
                     </div>
-
-                    <div className="mt-4 space-y-3">
-                        {openJobs.length === 0 && <JobsEmptyState />}
-                        {openJobs.map((job) => (
-                            <JobCard
-                                key={job.id}
-                                hotspot={job}
-                                claimed={false}
-                                claiming={claimingId === job.id}
-                                onClaim={() => handleClaim(job.id)}
-                            />
-                        ))}
-                    </div>
+                    <JobsSortBar sortBy={sortBy} onChange={setSortBy} />
                 </div>
 
+                {/* Open Jobs List with Overlapping Numerals */}
+                <div className="space-y-4">
+                    {openJobs.length === 0 && <JobsEmptyState />}
+                    {openJobs.map((job, idx) => (
+                        <JobCard
+                            key={job.id}
+                            hotspot={job}
+                            index={idx + 1}
+                            claimed={false}
+                            claiming={claimingId === job.id}
+                            onClaim={() => handleClaim(job.id)}
+                        />
+                    ))}
+                </div>
+
+                {/* Claimed Jobs Section */}
                 {claimedJobs.length > 0 && (
-                    <div className="rounded-3xl border border-white/80 bg-white/85 p-5 sm:p-6 shadow-xl shadow-ink/5 backdrop-blur-xl transition-all duration-300 animate-fade-in-up">
-                        <h2 className="text-xs font-bold uppercase tracking-wider text-stone pb-3 border-b border-stone-light/40">
-                            Claimed by you
-                        </h2>
-                        <div className="mt-4 space-y-3">
-                            {claimedJobs.map((job) => (
-                                <JobCard key={job.id} hotspot={job} claimed claiming={false} onClaim={() => { }} />
+                    <div className="pt-8 space-y-4">
+                        <div className="flex items-center justify-between px-2 border-t border-white/10 pt-6">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs uppercase font-body font-semibold tracking-wider text-white/60">
+                                    Claimed by You
+                                </span>
+                                <span className="liquid-glass rounded-full px-2 py-0.5 text-[10px] font-body text-white/90 bg-white/10">
+                                    {claimedJobs.length} Active
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            {claimedJobs.map((job, idx) => (
+                                <JobCard
+                                    key={job.id}
+                                    hotspot={job}
+                                    index={idx + 1}
+                                    claimed
+                                    claiming={false}
+                                    onClaim={() => { }}
+                                />
                             ))}
                         </div>
                     </div>

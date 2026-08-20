@@ -4,9 +4,9 @@ import { MapContainer, TileLayer, CircleMarker } from "react-leaflet";
 import type { Hotspot } from "@/lib/hotspots";
 
 const STATUS_COLOR: Record<Hotspot["status"], string> = {
-    open: "#D8432F",
-    claimed: "#F0B429",
-    resolved: "#2F9E58",
+    open: "#f87171",
+    claimed: "#fbbf24",
+    resolved: "#34d399",
 };
 
 export default function HotspotMiniMap({ hotspot }: { hotspot: Hotspot }) {
@@ -18,17 +18,17 @@ export default function HotspotMiniMap({ hotspot }: { hotspot: Hotspot }) {
             dragging={false}
             zoomControl={false}
             attributionControl={false}
-            className="h-full w-full"
+            className="h-full w-full bg-black"
         >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
             <CircleMarker
                 center={[hotspot.lat, hotspot.lng]}
-                radius={10}
+                radius={9}
                 pathOptions={{
-                    color: STATUS_COLOR[hotspot.status],
+                    color: "#ffffff",
                     fillColor: STATUS_COLOR[hotspot.status],
-                    fillOpacity: 0.9,
-                    weight: 3,
+                    fillOpacity: 0.95,
+                    weight: 2,
                 }}
             />
         </MapContainer>

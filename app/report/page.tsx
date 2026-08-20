@@ -9,7 +9,6 @@ import CategoryStep from "@/components/report/CategoryStep";
 import TriageLoader from "@/components/report/TriageLoader";
 import ConfirmationScreen from "@/components/report/ConfirmationScreen";
 import StickyActionBar from "@/components/report/StickyActionBar";
-import ReportBackground from "@/components/report/ReportBackground";
 import { mockTriage, type Category, type Coords, type ReportStep, type TriageResult } from "@/lib/types";
 
 export default function ReportPage() {
@@ -25,7 +24,6 @@ export default function ReportPage() {
     const [category, setCategory] = useState<Category | null>(null);
     const [triage, setTriage] = useState<TriageResult | null>(null);
 
-    // Listen for demo location preset selection events
     useEffect(() => {
         const handlePresetCoords = (e: Event) => {
             const customEvent = e as CustomEvent<Coords>;
@@ -61,7 +59,6 @@ export default function ReportPage() {
                 setLocating(false);
             },
             () => {
-                // fall back to a Delhi demo pin so the flow never dead-ends
                 setCoords({ lat: 28.6139, lng: 77.209 });
                 setLocationError("Couldn't get an exact GPS fix — using approximate location.");
                 setLocating(false);
@@ -104,22 +101,27 @@ export default function ReportPage() {
     const showChrome = step === "photo" || step === "location" || step === "category";
 
     return (
-        <div className="relative h-dvh max-h-dvh w-full flex flex-col bg-sand overflow-hidden no-scrollbar">
-            {/* Interactive Animated Background Elements & Glows */}
-            <ReportBackground />
+        <div className="relative min-h-dvh w-full flex flex-col bg-black overflow-x-hidden selection:bg-white selection:text-black">
 
-            {/* Main Content Area - Strictly Single Screen Fit */}
-            <div className="relative z-10 flex flex-col h-dvh max-h-dvh justify-between px-3 sm:px-6 pt-16 pb-2 overflow-hidden no-scrollbar">
-                <main className="mx-auto w-full max-w-2xl flex-1 flex flex-col justify-center overflow-hidden no-scrollbar py-2">
-                    {/* Glassmorphic Container Card for Form Steps */}
-                    <div className="rounded-3xl border border-white/80 bg-white/85 p-4 sm:p-6 shadow-xl shadow-ink/5 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between max-h-[calc(100dvh-130px)] overflow-y-auto no-scrollbar">
+            {/* Atmospheric dark background glows */}
+            <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+                <div className="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-transparent blur-3xl" />
+                <div className="absolute bottom-0 -left-32 h-[400px] w-[400px] rounded-full bg-gradient-to-tr from-white/[0.03] to-transparent blur-3xl" />
+                {/* Subtle dot grid */}
+                <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:28px_28px]" />
+            </div>
+
+            {/* Main content with top clearance for AppNavbar */}
+            <div className="relative z-10 flex flex-col min-h-dvh justify-between px-3 sm:px-6 pt-24 sm:pt-28 pb-6">
+                <main className="mx-auto w-full max-w-2xl flex-1 flex flex-col justify-center py-2">
+                    {/* Glass card */}
+                    <div className="liquid-glass rounded-3xl p-5 sm:p-7 flex flex-col justify-between">
                         {showChrome && <StepProgress current={step} />}
 
-                        <div className="flex-1 my-auto overflow-y-auto no-scrollbar py-1">
+                        <div className="flex-1 my-auto py-2">
                             {step === "photo" && (
                                 <PhotoStep preview={photoPreview} onSelect={handlePhotoSelect} onClear={handlePhotoClear} />
                             )}
-
                             {step === "location" && (
                                 <LocationStep
                                     coords={coords}
@@ -128,15 +130,12 @@ export default function ReportPage() {
                                     onLocate={handleLocate}
                                 />
                             )}
-
                             {step === "category" && (
                                 <CategoryStep selected={category} onSelect={setCategory} />
                             )}
-
                             {step === "triage" && (
                                 <TriageLoader onComplete={() => setStep("done")} />
                             )}
-
                             {step === "done" && category && triage && (
                                 <ConfirmationScreen category={category} triage={triage} onReportAnother={resetFlow} />
                             )}
@@ -145,7 +144,7 @@ export default function ReportPage() {
                 </main>
 
                 {showChrome && (
-                    <div className="mx-auto w-full max-w-2xl pb-1">
+                    <div className="mx-auto w-full max-w-2xl pt-3">
                         <StickyActionBar
                             showBack={step !== "photo"}
                             onBack={goBack}

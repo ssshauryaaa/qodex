@@ -3,7 +3,7 @@ import { WORKER_LOCATION, distanceKm } from "@/lib/geo";
 import JobsList from "@/components/jobs/JobsList";
 
 export const metadata = {
-    title: "Nearby jobs — WasteYatra",
+    title: "Nearby jobs",
 };
 
 export default function JobsPage() {

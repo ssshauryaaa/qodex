@@ -29,78 +29,76 @@ export default function LocationStep({ coords, locating, error, onLocate }: Loca
 
   return (
     <div className="animate-fade-in-up space-y-4">
-      {/* Header section with status pill */}
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-teal-light px-3 py-1 text-xs font-semibold text-teal-dark">
-            <Sparkles size={13} className="animate-pulse text-teal" />
-            <span>AI GPS Locator</span>
-          </div>
-          <h2 className="mt-1.5 text-xl font-bold tracking-tight text-ink">
-            Pin the exact hotspot location
-          </h2>
-          <p className="text-xs text-stone">
-            Auto-matches municipal ward & assigns nearest available cleanup team.
-          </p>
+      {/* Header */}
+      <div>
+        <div className="inline-flex items-center gap-1.5 liquid-glass rounded-full px-3 py-1 text-xs font-body text-white/70">
+          <Sparkles size={12} className="animate-pulse text-white/50" />
+          <span>AI GPS Locator</span>
         </div>
+        <h2 className="mt-2 text-xl font-heading italic text-white tracking-tight">
+          Pin the exact hotspot location
+        </h2>
+        <p className="text-xs text-white/50 font-body font-light">
+          Auto-matches municipal ward & assigns nearest available cleanup team.
+        </p>
       </div>
 
-      {/* Main Map Box & Interactive Radar Target */}
-      <div className="relative h-48 w-full overflow-hidden rounded-2xl border border-stone-light/60 bg-teal-light shadow-inner">
-        {/* Abstract Map Grid */}
+      {/* Map Box */}
+      <div className="relative h-48 w-full overflow-hidden rounded-2xl liquid-glass">
+        {/* Grid */}
         <div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-20"
           style={{
             backgroundImage:
-              "linear-gradient(0deg, rgba(15,110,86,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(15,110,86,0.15) 1px, transparent 1px)",
+              "linear-gradient(0deg, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
             backgroundSize: "24px 24px",
           }}
         />
 
-        {/* Radar Sweep Effect while locating */}
+        {/* Radar sweep while locating */}
         {locating && (
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,110,86,0.2)_0,transparent_70%)] animate-pulse" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06)_0,transparent_70%)] animate-pulse" />
         )}
 
         {/* Center Reticle / Pin */}
         <div className="absolute inset-0 flex items-center justify-center">
           {locating ? (
-            <div className="flex flex-col items-center gap-2 text-teal-dark">
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-teal/20">
-                <Loader2 size={24} className="animate-spin text-teal" />
+            <div className="flex flex-col items-center gap-2 text-white/70">
+              <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
+                <Loader2 size={24} className="animate-spin text-white/70" />
               </div>
-              <span className="text-xs font-medium bg-white/80 px-2.5 py-0.5 rounded-full backdrop-blur-xs">
+              <span className="text-xs font-body liquid-glass px-2.5 py-0.5 rounded-full">
                 Scanning satellites & GPS fix…
               </span>
             </div>
           ) : coords ? (
             <div className="relative flex flex-col items-center group">
-              <span className="absolute -top-3 h-14 w-14 rounded-full bg-marigold/30 animate-ring-pulse" />
-              <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-lg border-2 border-marigold transition-transform duration-300 group-hover:scale-110">
-                <MapPin size={26} className="text-marigold" fill="#F2872E" strokeWidth={1.5} />
+              <span className="absolute -top-3 h-14 w-14 rounded-full bg-white/10 animate-ring-pulse" />
+              <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 border border-white/30 transition-transform duration-300 group-hover:scale-110">
+                <MapPin size={26} className="text-white" fill="rgba(255,255,255,0.5)" strokeWidth={1.5} />
               </div>
-              <div className="mt-1 rounded-full bg-ink/90 px-3 py-1 text-[11px] font-bold text-white shadow-md backdrop-blur-xs flex items-center gap-1">
-                <Navigation size={11} className="text-marigold" />
+              <div className="mt-1 liquid-glass rounded-full px-3 py-1 text-[11px] font-body text-white/80 flex items-center gap-1">
+                <Navigation size={10} className="text-white/50" />
                 <span>{coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}</span>
               </div>
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-1.5 text-teal-dark/70">
+            <div className="flex flex-col items-center gap-1.5 text-white/40">
               <MapPin size={32} strokeWidth={1.5} />
-              <span className="text-xs font-semibold bg-white/80 px-3 py-1 rounded-full">
+              <span className="text-xs font-body liquid-glass px-3 py-1 rounded-full text-white/60">
                 Tap Detect or select a demo pin below
               </span>
             </div>
           )}
         </div>
 
-        {/* GPS Control Floating Action */}
+        {/* GPS button */}
         <div className="absolute bottom-2.5 right-2.5">
           <button
             type="button"
             onClick={onLocate}
             disabled={locating}
-            className="flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white shadow-md transition-all duration-200 hover:bg-marigold hover:scale-105 active:scale-95 disabled:opacity-60"
+            className="flex items-center gap-1.5 liquid-glass rounded-full px-4 py-2 text-xs font-body font-medium text-white/80 transition-all duration-200 hover:text-white hover:brightness-125 active:scale-95 disabled:opacity-40"
           >
             <LocateFixed size={14} className={locating ? "animate-spin" : ""} />
             <span>{coords ? "Re-detect GPS" : "Detect Location"}</span>
@@ -108,11 +106,11 @@ export default function LocationStep({ coords, locating, error, onLocate }: Loca
         </div>
       </div>
 
-      {/* Quick Demo Location Presets */}
-      <div className="rounded-xl border border-stone-light/40 bg-white/60 p-3 backdrop-blur-xs">
-        <div className="flex items-center justify-between text-[11px] font-medium text-stone mb-2">
+      {/* Preset pins */}
+      <div className="liquid-glass rounded-xl p-3">
+        <div className="flex items-center justify-between text-[11px] font-body text-white/50 mb-2">
           <span>Or test with a preset location</span>
-          <span className="text-teal font-semibold flex items-center gap-1">
+          <span className="text-white/70 flex items-center gap-1">
             <Zap size={11} /> 1-Tap Pin
           </span>
         </div>
@@ -122,39 +120,41 @@ export default function LocationStep({ coords, locating, error, onLocate }: Loca
               key={preset.name}
               type="button"
               onClick={() => {
-                // Simulate quick selection
                 onLocate();
                 setTimeout(() => {
-                  // Direct set via event handled in page
                   window.dispatchEvent(new CustomEvent("qodex-set-coords", { detail: preset.coords }));
                 }, 100);
               }}
-              className="flex flex-col items-start rounded-lg border border-stone-light/60 bg-white p-2 text-left transition-all duration-200 hover:border-teal hover:bg-teal-light/30 hover:-translate-y-0.5"
+              className="flex flex-col items-start liquid-glass rounded-lg p-2 text-left transition-all duration-200 hover:brightness-125 hover:-translate-y-0.5"
             >
-              <span className="text-xs font-bold text-ink truncate w-full">{preset.name}</span>
-              <span className="text-[10px] text-stone">{preset.ward}</span>
+              <span className="text-xs font-body font-medium text-white/80 truncate w-full">{preset.name}</span>
+              <span className="text-[10px] text-white/40 font-body">{preset.ward}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Diagnostic & Copy Bar */}
+      {/* Coords confirmation bar */}
       {coords && (
-        <div className="flex items-center justify-between rounded-xl border border-stone-light/60 bg-sand/60 px-3.5 py-2.5 text-xs">
+        <div className="flex items-center justify-between liquid-glass rounded-xl px-3.5 py-2.5 text-xs">
           <div className="flex items-center gap-2">
-            <ShieldCheck size={16} className="text-status-resolved" />
-            <span className="font-semibold text-ink">Ward Indexing Matched</span>
+            <ShieldCheck size={15} className="text-white/60" />
+            <span className="font-body font-medium text-white/80">Ward Indexing Matched</span>
           </div>
-
           <button
             type="button"
             onClick={copyCoords}
-            className="flex items-center gap-1 rounded-md bg-white border border-stone-light/60 px-2.5 py-1 text-[11px] font-medium text-stone hover:text-ink transition-colors"
+            className="flex items-center gap-1 liquid-glass rounded-md px-2.5 py-1 text-[11px] font-body text-white/60 hover:text-white transition-colors"
           >
-            {copied ? <Check size={12} className="text-status-resolved" /> : <Copy size={12} />}
+            {copied ? <Check size={12} className="text-white" /> : <Copy size={12} />}
             <span>{copied ? "Copied" : "Copy GPS"}</span>
           </button>
         </div>
+      )}
+
+      {/* Error message */}
+      {error && (
+        <p className="text-xs text-red-400/80 font-body font-light px-1">{error}</p>
       )}
     </div>
   );
