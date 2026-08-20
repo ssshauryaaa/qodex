@@ -17,7 +17,8 @@ export interface Hotspot {
 }
 
 export function timeAgo(hoursAgo: number): string {
-    if (hoursAgo < 1) return `${Math.round(hoursAgo * 60)} min ago`;
+    if (hoursAgo < 0.05) return "Just now";
+    if (hoursAgo < 1) return `${Math.max(1, Math.round(hoursAgo * 60))} min ago`;
     if (hoursAgo < 24) return `${Math.round(hoursAgo)}h ago`;
     return `${Math.round(hoursAgo / 24)}d ago`;
 }
@@ -40,3 +41,89 @@ export const SEED_HOTSPOTS: Hotspot[] = [
     { id: "h15", lat: 28.71, lng: 77.1925, status: "resolved", category: "illegal_dump", severity: "high", payout: 150, ward: "Model Town", hoursAgo: 36, resolutionHours: 9, photoUrl: "https://picsum.photos/seed/h15/480/320" },
     { id: "h16", lat: 28.5487, lng: 77.2519, status: "open", category: "drain_block", severity: "medium", payout: 90, ward: "Nehru Place", hoursAgo: 0.8, photoUrl: "https://picsum.photos/seed/h16/480/320" },
 ];
+
+export const STORAGE_KEY = "wasteyatra_live_hotspots_v2";
+export const EVENT_KEY = "wasteyatra_hotspots_updated";
+
+/** Get stored hotspots from localStorage or initialize with SEED_HOTSPOTS */
+export function getStoredHotspots(): Hotspot[] {
+    if (typeof window === "undefined") return SEED_HOTSPOTS;
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_HOTSPOTS));
+            return SEED_HOTSPOTS;
+        }
+        return JSON.parse(stored);
+    } catch {
+        return SEED_HOTSPOTS;
+    }
+}
+
+/** Add a new reported hotspot in real-time */
+export function addReportedHotspot(hotspot: {
+    lat: number;
+    lng: number;
+    category: Category;
+    severity: "low" | "medium" | "high";
+    payout: number;
+    ward?: string;
+    photoUrl?: string;
+}): Hotspot {
+    const list = getStoredHotspots();
+    const id = `user-${Date.now().toString(36)}`;
+    
+    // Auto-detect ward from coordinates if not specified
+    const ward = hotspot.ward || (
+        hotspot.lat > 28.64 ? (hotspot.lng > 77.20 ? "Chandni Chowk" : "Karol Bagh")
+        : (hotspot.lng > 77.20 ? "Lajpat Nagar" : "Dwarka")
+    );
+
+    const newHotspot: Hotspot = {
+        id,
+        lat: hotspot.lat,
+        lng: hotspot.lng,
+        status: "open",
+        category: hotspot.category,
+        severity: hotspot.severity,
+        payout: hotspot.payout,
+        ward,
+        hoursAgo: 0.01,
+        photoUrl: hotspot.photoUrl || "https://picsum.photos/seed/user/480/320",
+    };
+
+    const updated = [newHotspot, ...list];
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent(EVENT_KEY, { detail: newHotspot }));
+        }
+    } catch (e) {
+        console.error("Failed to save live hotspot:", e);
+    }
+    return newHotspot;
+}
+
+/** Update hotspot status (e.g. claim, resolve) */
+export function updateHotspotStatus(id: string, status: HotspotStatus, resolutionHours?: number) {
+    const list = getStoredHotspots();
+    const updated = list.map((h) => {
+        if (h.id === id) {
+            return {
+                ...h,
+                status,
+                ...(resolutionHours ? { resolutionHours } : {}),
+            };
+        }
+        return h;
+    });
+
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent(EVENT_KEY, { detail: { id, status } }));
+        }
+    } catch (e) {
+        console.error("Failed to update hotspot status:", e);
+    }
+}

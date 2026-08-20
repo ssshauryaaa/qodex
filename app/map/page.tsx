@@ -7,7 +7,8 @@ import FilterBar from "@/components/map/FilterBar";
 import MapLegend from "@/components/map/MapLegend";
 import MapEcoWidget from "@/components/map/MapEcoWidget";
 import HotspotDetailPanel from "@/components/map/HotspotDetailPanel";
-import { SEED_HOTSPOTS, type Hotspot, type HotspotStatus } from "@/lib/hotspots";
+import { useLiveHotspots } from "@/lib/useLiveHotspots";
+import type { Hotspot, HotspotStatus } from "@/lib/hotspots";
 
 const MapCanvas = dynamic(() => import("@/components/map/MapCanvas"), {
     ssr: false,
@@ -15,7 +16,7 @@ const MapCanvas = dynamic(() => import("@/components/map/MapCanvas"), {
         <div className="flex h-full w-full items-center justify-center bg-black">
             <div className="flex flex-col items-center gap-2 text-white">
                 <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/80 border-t-transparent" />
-                <span className="text-xs font-body font-light tracking-wide text-white/60">Syncing Delhi Hotspot Grid…</span>
+                <span className="text-xs font-body font-light tracking-wide text-white/60">Syncing Live Delhi Hotspot Grid…</span>
             </div>
         </div>
     ),
@@ -24,25 +25,26 @@ const MapCanvas = dynamic(() => import("@/components/map/MapCanvas"), {
 type FilterValue = "all" | HotspotStatus;
 
 export default function MapPage() {
+    const hotspots = useLiveHotspots();
     const [statusFilter, setStatusFilter] = useState<FilterValue>("all");
     const [selected, setSelected] = useState<Hotspot | null>(null);
 
     const filtered = useMemo(
         () => statusFilter === "all"
-            ? SEED_HOTSPOTS
-            : SEED_HOTSPOTS.filter((h) => h.status === statusFilter),
-        [statusFilter]
+            ? hotspots
+            : hotspots.filter((h) => h.status === statusFilter),
+        [statusFilter, hotspots]
     );
 
     const counts = useMemo(() => ({
-        open: SEED_HOTSPOTS.filter((h) => h.status === "open").length,
-        claimed: SEED_HOTSPOTS.filter((h) => h.status === "claimed").length,
-        resolved: SEED_HOTSPOTS.filter((h) => h.status === "resolved").length,
-    }), []);
+        open: hotspots.filter((h) => h.status === "open").length,
+        claimed: hotspots.filter((h) => h.status === "claimed").length,
+        resolved: hotspots.filter((h) => h.status === "resolved").length,
+    }), [hotspots]);
 
     const totalPayout = useMemo(
-        () => SEED_HOTSPOTS.filter((h) => h.status === "open").reduce((acc, h) => acc + h.payout, 0),
-        []
+        () => hotspots.filter((h) => h.status === "open").reduce((acc, h) => acc + h.payout, 0),
+        [hotspots]
     );
 
     return (
@@ -55,11 +57,11 @@ export default function MapPage() {
 
             {/* ── Layer 30: Top Floating Control Dock with responsive positioning ── */}
             <div className="absolute top-20 sm:top-24 left-1/2 -translate-x-1/2 z-30 w-[94%] max-w-3xl rounded-3xl liquid-glass px-3 sm:px-4 py-2 sm:py-2.5 shadow-2xl backdrop-blur-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3 animate-fade-in-up">
-                <MapHeader total={SEED_HOTSPOTS.length} />
+                <MapHeader total={hotspots.length} />
 
                 <div className="flex items-center gap-2 min-w-0 w-full sm:w-auto">
                     <div className="min-w-0 w-full sm:w-auto overflow-x-auto no-scrollbar py-0.5">
-                        <FilterBar value={statusFilter} onChange={setStatusFilter} counts={counts} total={SEED_HOTSPOTS.length} />
+                        <FilterBar value={statusFilter} onChange={setStatusFilter} counts={counts} total={hotspots.length} />
                     </div>
                 </div>
             </div>

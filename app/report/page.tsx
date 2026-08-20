@@ -10,6 +10,7 @@ import TriageLoader from "@/components/report/TriageLoader";
 import ConfirmationScreen from "@/components/report/ConfirmationScreen";
 import StickyActionBar from "@/components/report/StickyActionBar";
 import { mockTriage, type Category, type Coords, type ReportStep, type TriageResult } from "@/lib/types";
+import { addReportedHotspot } from "@/lib/hotspots";
 
 export default function ReportPage() {
     const [step, setStep] = useState<ReportStep>("photo");
@@ -23,6 +24,7 @@ export default function ReportPage() {
 
     const [category, setCategory] = useState<Category | null>(null);
     const [triage, setTriage] = useState<TriageResult | null>(null);
+    const [createdId, setCreatedId] = useState<string | null>(null);
 
     useEffect(() => {
         const handlePresetCoords = (e: Event) => {
@@ -76,9 +78,25 @@ export default function ReportPage() {
         if (step === "photo" && photoPreview) setStep("location");
         else if (step === "location" && coords) setStep("category");
         else if (step === "category" && category) {
-            setTriage(mockTriage(category));
+            const calculatedTriage = mockTriage(category);
+            setTriage(calculatedTriage);
             setStep("triage");
         }
+    }
+
+    function handleTriageComplete() {
+        if (coords && category && triage) {
+            const newHotspot = addReportedHotspot({
+                lat: coords.lat,
+                lng: coords.lng,
+                category,
+                severity: triage.severity,
+                payout: triage.payout,
+                photoUrl: photoPreview || undefined,
+            });
+            setCreatedId(newHotspot.id);
+        }
+        setStep("done");
     }
 
     const canContinue = useMemo(() => {
@@ -95,6 +113,7 @@ export default function ReportPage() {
         setLocationError(null);
         setCategory(null);
         setTriage(null);
+        setCreatedId(null);
         setStep("photo");
     }
 
@@ -134,10 +153,15 @@ export default function ReportPage() {
                                 <CategoryStep selected={category} onSelect={setCategory} />
                             )}
                             {step === "triage" && (
-                                <TriageLoader onComplete={() => setStep("done")} />
+                                <TriageLoader onComplete={handleTriageComplete} />
                             )}
                             {step === "done" && category && triage && (
-                                <ConfirmationScreen category={category} triage={triage} onReportAnother={resetFlow} />
+                                <ConfirmationScreen
+                                    category={category}
+                                    triage={triage}
+                                    createdId={createdId}
+                                    onReportAnother={resetFlow}
+                                />
                             )}
                         </div>
                     </div>
