@@ -31,27 +31,52 @@ const SAMPLE_PRESETS = [
     title: "Overflowing Bin",
     desc: "Community bin spilled over",
     badge: "Popular",
+    badgeColor: "bg-amber-500/20 text-amber-300 border border-amber-500/30",
+    cardGlow: "group-hover:border-amber-500/40 group-hover:shadow-[0_0_20px_rgba(245,158,11,0.15)]",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
-      <rect width="600" height="400" fill="#111111"/>
-      <rect y="280" width="600" height="120" fill="#1c1c1c"/>
-      <line x1="0" y1="280" x2="600" y2="280" stroke="#ffffff" stroke-opacity="0.3" stroke-width="2"/>
-      <!-- Green Dumpster -->
-      <path d="M 180 180 L 420 180 L 390 320 L 210 320 Z" fill="#222222" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/>
-      <rect x="170" y="165" width="260" height="20" rx="4" fill="#333333" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.5"/>
-      <line x1="260" y1="200" x2="250" y2="300" stroke="#ffffff" stroke-opacity="0.2" stroke-width="2"/>
-      <line x1="340" y1="200" x2="350" y2="300" stroke="#ffffff" stroke-opacity="0.2" stroke-width="2"/>
-      <!-- Trash Bags & Spills -->
-      <circle cx="230" cy="150" r="32" fill="#555555" opacity="0.9"/>
-      <circle cx="280" cy="140" r="40" fill="#444444" opacity="0.95"/>
-      <circle cx="340" cy="155" r="35" fill="#666666" opacity="0.9"/>
-      <circle cx="370" cy="165" r="25" fill="#777777" opacity="0.9"/>
-      <!-- Fallen items on ground -->
-      <ellipse cx="160" cy="330" rx="25" ry="15" fill="#555555"/>
-      <rect x="420" y="325" width="30" height="20" rx="3" fill="#666666" transform="rotate(15 420 325)"/>
-      <circle cx="460" cy="340" r="10" fill="#888888"/>
+      <defs>
+        <linearGradient id="bg-overflow" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#0c192c"/>
+          <stop offset="60%" stop-color="#182d49"/>
+          <stop offset="100%" stop-color="#2a2016"/>
+        </linearGradient>
+        <linearGradient id="dumpster-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#047857"/>
+          <stop offset="50%" stop-color="#10b981"/>
+          <stop offset="100%" stop-color="#065f46"/>
+        </linearGradient>
+        <linearGradient id="ground-overflow" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#262626"/>
+          <stop offset="100%" stop-color="#171717"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="400" fill="url(#bg-overflow)"/>
+      <ellipse cx="300" cy="180" rx="260" ry="120" fill="#f59e0b" opacity="0.08"/>
+      <rect y="280" width="600" height="120" fill="url(#ground-overflow)"/>
+      <line x1="0" y1="280" x2="600" y2="280" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="2"/>
+      
+      <!-- Green Community Dumpster -->
+      <path d="M 180 180 L 420 180 L 390 320 L 210 320 Z" fill="url(#dumpster-grad)" stroke="#34d399" stroke-opacity="0.8" stroke-width="2"/>
+      <rect x="170" y="165" width="260" height="18" rx="4" fill="#f97316" stroke="#fdba74" stroke-width="1.5"/>
+      <line x1="260" y1="195" x2="250" y2="305" stroke="#047857" stroke-width="3"/>
+      <line x1="340" y1="195" x2="350" y2="305" stroke="#047857" stroke-width="3"/>
+      
+      <!-- Vivid Overflowing Trash Bags -->
+      <circle cx="230" cy="148" r="34" fill="#f97316" opacity="0.95"/>
+      <circle cx="280" cy="135" r="42" fill="#06b6d4" opacity="0.95"/>
+      <circle cx="335" cy="150" r="36" fill="#a855f7" opacity="0.95"/>
+      <circle cx="370" cy="160" r="26" fill="#eab308" opacity="0.95"/>
+      <circle cx="205" cy="165" r="22" fill="#10b981" opacity="0.9"/>
+      
+      <!-- Spilled Trash Items on Ground -->
+      <ellipse cx="160" cy="330" rx="26" ry="16" fill="#f97316"/>
+      <rect x="415" y="320" width="34" height="22" rx="4" fill="#06b6d4" transform="rotate(18 415 320)"/>
+      <circle cx="465" cy="340" r="12" fill="#fbbf24"/>
+      <ellipse cx="125" cy="345" rx="18" ry="10" fill="#a855f7"/>
+      
       <!-- Hotspot Tag -->
-      <rect x="200" y="50" width="200" height="36" rx="18" fill="#ffffff" fill-opacity="0.15"/>
-      <text x="300" y="73" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="14" text-anchor="middle">OVERFLOW HOTSPOT</text>
+      <rect x="190" y="45" width="220" height="38" rx="19" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-opacity="0.6"/>
+      <text x="300" y="69" fill="#fef3c7" font-family="sans-serif" font-weight="bold" font-size="13" text-anchor="middle" letter-spacing="1">⚡ OVERFLOW HOTSPOT</text>
     </svg>`,
   },
   {
@@ -59,20 +84,48 @@ const SAMPLE_PRESETS = [
     title: "Illegal Dump Site",
     desc: "Roadside junk & debris",
     badge: "High Severity",
+    badgeColor: "bg-red-500/20 text-red-300 border border-red-500/30",
+    cardGlow: "group-hover:border-red-500/40 group-hover:shadow-[0_0_20px_rgba(239,68,68,0.15)]",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
-      <rect width="600" height="400" fill="#111111"/>
-      <path d="M 0 250 Q 300 220 600 250 L 600 400 L 0 400 Z" fill="#222222"/>
-      <!-- Furniture & Debris -->
-      <rect x="180" y="190" width="130" height="90" rx="8" fill="#333333" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5"/>
-      <rect x="200" y="160" width="90" height="35" rx="5" fill="#444444"/>
-      <circle cx="360" cy="240" r="45" fill="#2a2a2a" stroke="#ffffff" stroke-opacity="0.4" stroke-width="2"/>
-      <circle cx="360" cy="240" r="20" fill="#111111"/>
-      <rect x="310" y="260" width="120" height="50" rx="6" fill="#555555" transform="rotate(-10 310 260)"/>
-      <circle cx="130" cy="290" r="28" fill="#444444"/>
-      <circle cx="480" cy="300" r="22" fill="#666666"/>
+      <defs>
+        <linearGradient id="bg-dump" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#1c0a0e"/>
+          <stop offset="60%" stop-color="#3b1219"/>
+          <stop offset="100%" stop-color="#1f1813"/>
+        </linearGradient>
+        <linearGradient id="hazard-stripes" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#dc2626"/>
+          <stop offset="50%" stop-color="#f59e0b"/>
+          <stop offset="100%" stop-color="#dc2626"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="400" fill="url(#bg-dump)"/>
+      <ellipse cx="300" cy="220" rx="280" ry="100" fill="#ef4444" opacity="0.1"/>
+      <path d="M 0 250 Q 300 210 600 250 L 600 400 L 0 400 Z" fill="#1e1e1e"/>
+      
+      <!-- Abandoned Sofa / Furniture -->
+      <rect x="170" y="185" width="140" height="95" rx="10" fill="#dc2626" stroke="#f87171" stroke-width="2"/>
+      <rect x="190" y="155" width="100" height="38" rx="6" fill="#b91c1c" stroke="#fca5a5" stroke-width="1.5"/>
+      <rect x="160" y="220" width="22" height="60" rx="4" fill="#991b1b"/>
+      <rect x="298" y="220" width="22" height="60" rx="4" fill="#991b1b"/>
+      
+      <!-- Discarded Tire with rim -->
+      <circle cx="365" cy="245" r="46" fill="#334155" stroke="#64748b" stroke-width="3"/>
+      <circle cx="365" cy="245" r="28" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/>
+      <circle cx="365" cy="245" r="12" fill="#0f172a"/>
+      
+      <!-- Industrial Yellow Crate -->
+      <rect x="310" y="265" width="125" height="52" rx="6" fill="#f59e0b" stroke="#fcd34d" stroke-width="1.5" transform="rotate(-8 310 265)"/>
+      <line x1="330" y1="280" x2="410" y2="280" stroke="#b45309" stroke-width="2" transform="rotate(-8 310 265)"/>
+      
+      <!-- Debris & Paint Can -->
+      <circle cx="125" cy="300" r="30" fill="#3b82f6"/>
+      <circle cx="490" cy="310" r="24" fill="#10b981"/>
+      <rect x="440" y="280" width="30" height="40" rx="4" fill="#ec4899"/>
+      
       <!-- Hotspot Tag -->
-      <rect x="200" y="50" width="200" height="36" rx="18" fill="#ffffff" fill-opacity="0.15"/>
-      <text x="300" y="73" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="14" text-anchor="middle">ILLEGAL DUMPING</text>
+      <rect x="190" y="45" width="220" height="38" rx="19" fill="#ef4444" fill-opacity="0.2" stroke="#ef4444" stroke-opacity="0.6"/>
+      <text x="300" y="69" fill="#fee2e2" font-family="sans-serif" font-weight="bold" font-size="13" text-anchor="middle" letter-spacing="1">🚨 ILLEGAL DUMP SITE</text>
     </svg>`,
   },
   {
@@ -80,24 +133,50 @@ const SAMPLE_PRESETS = [
     title: "Blocked Drain",
     desc: "Clogged stormwater grate",
     badge: "Action Needed",
+    badgeColor: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30",
+    cardGlow: "group-hover:border-cyan-500/40 group-hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
-      <rect width="600" height="400" fill="#111111"/>
-      <!-- Road Surface & Drain Grate -->
-      <rect x="100" y="180" width="400" height="180" rx="12" fill="#222222" stroke="#ffffff" stroke-opacity="0.3" stroke-width="2"/>
-      <line x1="160" y1="200" x2="160" y2="340" stroke="#111111" stroke-width="8"/>
-      <line x1="220" y1="200" x2="220" y2="340" stroke="#111111" stroke-width="8"/>
-      <line x1="280" y1="200" x2="280" y2="340" stroke="#111111" stroke-width="8"/>
-      <line x1="340" y1="200" x2="340" y2="340" stroke="#111111" stroke-width="8"/>
-      <line x1="400" y1="200" x2="400" y2="340" stroke="#111111" stroke-width="8"/>
-      <line x1="440" y1="200" x2="440" y2="340" stroke="#111111" stroke-width="8"/>
-      <!-- Leaves & Plastic Blocking Grate -->
-      <circle cx="240" cy="250" r="38" fill="#555555" opacity="0.95"/>
-      <circle cx="300" cy="270" r="42" fill="#666666" opacity="0.95"/>
-      <ellipse cx="360" cy="240" rx="45" ry="30" fill="#444444"/>
-      <ellipse cx="200" cy="280" rx="35" ry="22" fill="#333333"/>
+      <defs>
+        <linearGradient id="bg-drain" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#081b2a"/>
+          <stop offset="50%" stop-color="#0c3552"/>
+          <stop offset="100%" stop-color="#082337"/>
+        </linearGradient>
+        <linearGradient id="water-flow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0284c7"/>
+          <stop offset="50%" stop-color="#06b6d4"/>
+          <stop offset="100%" stop-color="#38bdf8"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="400" fill="url(#bg-drain)"/>
+      <ellipse cx="300" cy="260" rx="270" ry="110" fill="#06b6d4" opacity="0.12"/>
+      
+      <!-- Wet Road & Water Swirl -->
+      <path d="M 50 190 Q 300 230 550 190 L 550 380 L 50 380 Z" fill="#0f283d"/>
+      <ellipse cx="300" cy="270" rx="210" ry="85" fill="url(#water-flow)" opacity="0.4"/>
+      
+      <!-- Metallic Steel Drain Grate -->
+      <rect x="110" y="180" width="380" height="175" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-opacity="0.8" stroke-width="2.5"/>
+      <line x1="165" y1="200" x2="165" y2="335" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round"/>
+      <line x1="220" y1="200" x2="220" y2="335" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round"/>
+      <line x1="275" y1="200" x2="275" y2="335" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round"/>
+      <line x1="330" y1="200" x2="330" y2="335" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round"/>
+      <line x1="385" y1="200" x2="385" y2="335" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round"/>
+      <line x1="435" y1="200" x2="435" y2="335" stroke="#0ea5e9" stroke-width="7" stroke-linecap="round"/>
+      
+      <!-- Floating Organic Leaves & Plastic Blocking Grate -->
+      <ellipse cx="235" cy="250" rx="40" ry="24" fill="#22c55e" opacity="0.95"/>
+      <ellipse cx="310" cy="270" rx="44" ry="28" fill="#16a34a" opacity="0.95"/>
+      <circle cx="370" cy="245" r="32" fill="#e11d48" opacity="0.9"/>
+      <rect x="180" y="275" width="45" height="20" rx="6" fill="#f59e0b" transform="rotate(-15 180 275)"/>
+      <ellipse cx="410" cy="285" rx="30" ry="18" fill="#a855f7"/>
+      
+      <!-- Water Ripples -->
+      <circle cx="290" cy="265" r="70" fill="none" stroke="#e0f2fe" stroke-width="1.5" stroke-dasharray="8 6" opacity="0.6"/>
+      
       <!-- Hotspot Tag -->
-      <rect x="200" y="50" width="200" height="36" rx="18" fill="#ffffff" fill-opacity="0.15"/>
-      <text x="300" y="73" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="14" text-anchor="middle">DRAIN BLOCKAGE</text>
+      <rect x="190" y="45" width="220" height="38" rx="19" fill="#06b6d4" fill-opacity="0.2" stroke="#06b6d4" stroke-opacity="0.6"/>
+      <text x="300" y="69" fill="#e0f2fe" font-family="sans-serif" font-weight="bold" font-size="13" text-anchor="middle" letter-spacing="1">🌊 DRAIN BLOCKAGE</text>
     </svg>`,
   },
 ];
@@ -232,30 +311,30 @@ export default function PhotoStep({ preview, onSelect, onClear }: PhotoStepProps
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
               {SAMPLE_PRESETS.map((preset) => (
                 <button
                   key={preset.id}
                   type="button"
                   onClick={() => selectSamplePreset(preset.svg, preset.title)}
-                  className="group relative flex flex-col items-center overflow-hidden rounded-xl liquid-glass p-1.5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:brightness-125"
+                  className={`group relative flex flex-col items-center overflow-hidden rounded-2xl liquid-glass p-2 text-left transition-all duration-300 hover:-translate-y-1 ${preset.cardGlow} active:scale-95`}
                 >
-                  <div className="relative h-16 w-full overflow-hidden rounded-lg bg-black/60">
+                  <div className="relative h-20 sm:h-24 w-full overflow-hidden rounded-xl bg-black/80 border border-white/10 shadow-inner">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={`data:image/svg+xml;utf8,${encodeURIComponent(preset.svg)}`}
                       alt={preset.title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute top-1 left-1 rounded bg-black/70 px-1 py-0.5 text-[8px] font-body text-white/80 backdrop-blur-xs">
+                    <div className={`absolute top-1.5 left-1.5 rounded-full px-2 py-0.5 text-[8px] sm:text-[9px] font-body font-semibold backdrop-blur-md ${preset.badgeColor}`}>
                       {preset.badge}
                     </div>
                   </div>
-                  <div className="mt-1 w-full text-center">
-                    <p className="text-[11px] font-medium font-body text-white/90 truncate">
+                  <div className="mt-2 w-full text-center px-0.5">
+                    <p className="text-xs font-semibold font-body text-white group-hover:text-white transition-colors truncate">
                       {preset.title}
                     </p>
-                    <p className="text-[9px] text-white/40 font-body truncate">{preset.desc}</p>
+                    <p className="text-[10px] text-white/50 font-body truncate mt-0.5 font-light">{preset.desc}</p>
                   </div>
                 </button>
               ))}

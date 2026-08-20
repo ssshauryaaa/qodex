@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Clock, IndianRupee, Check, Loader2, Sparkles, ArrowUpRight, ShieldAlert } from "lucide-react";
+import { MapPin, Clock, IndianRupee, Check, Loader2, Sparkles, ArrowUpRight } from "lucide-react";
 import type { Hotspot } from "@/lib/hotspots";
 import { timeAgo } from "@/lib/hotspots";
 import { formatDistance } from "@/lib/geo";
-import { CATEGORY_OPTIONS, SEVERITY_STYLES } from "@/lib/types";
+import { CATEGORY_OPTIONS } from "@/lib/types";
 import CategoryIllustration from "@/components/report/CategoryIllustration";
 
 interface JobCardProps {
@@ -16,37 +16,63 @@ interface JobCardProps {
   onClaim: () => void;
 }
 
+const CATEGORY_THEMES = {
+  overflow: {
+    cardGlow: "hover:border-amber-500/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.12)]",
+    numeralColor: "text-amber-500/[0.08] group-hover:text-amber-400/[0.18]",
+    categoryBadge: "bg-amber-500/15 text-amber-300 border border-amber-500/30",
+    payoutColor: "text-amber-400",
+  },
+  illegal_dump: {
+    cardGlow: "hover:border-rose-500/40 hover:shadow-[0_0_30px_rgba(244,63,94,0.12)]",
+    numeralColor: "text-rose-500/[0.08] group-hover:text-rose-400/[0.18]",
+    categoryBadge: "bg-rose-500/15 text-rose-300 border border-rose-500/30",
+    payoutColor: "text-rose-400",
+  },
+  drain_block: {
+    cardGlow: "hover:border-cyan-500/40 hover:shadow-[0_0_30px_rgba(6,182,212,0.12)]",
+    numeralColor: "text-cyan-500/[0.08] group-hover:text-cyan-400/[0.18]",
+    categoryBadge: "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30",
+    payoutColor: "text-cyan-400",
+  },
+};
+
+const SEVERITY_BADGES = {
+  high: "bg-rose-500/15 text-rose-300 border border-rose-500/30",
+  medium: "bg-amber-500/15 text-amber-300 border border-amber-500/30",
+  low: "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30",
+};
+
 export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: JobCardProps) {
   const category = CATEGORY_OPTIONS.find((c) => c.id === hotspot.category);
-  const severity = SEVERITY_STYLES[hotspot.severity];
+  const theme = CATEGORY_THEMES[hotspot.category] || CATEGORY_THEMES.overflow;
+  const severityBadge = SEVERITY_BADGES[hotspot.severity] || SEVERITY_BADGES.medium;
   const formattedIndex = String(index).padStart(2, "0");
 
   return (
     <div className="group relative pt-4 sm:pt-6 transition-all duration-500">
       {/* 
-        Giant overlapping background numeral:
-        Positioned to stick out behind the top-left of the glass card. 
-        The card's backdrop-filter will frost and blur the lower half of the number!
+        Giant overlapping background numeral with category-specific tint
       */}
       <div 
-        className="absolute -top-3 left-4 sm:-top-6 sm:left-6 z-0 text-7xl sm:text-8xl md:text-9xl font-heading italic font-bold text-white/[0.08] select-none pointer-events-none tracking-tighter transition-all duration-500 group-hover:text-white/[0.18] group-hover:-translate-y-1.5"
+        className={`absolute -top-3 left-4 sm:-top-6 sm:left-6 z-0 text-7xl sm:text-8xl md:text-9xl font-heading italic font-bold select-none pointer-events-none tracking-tighter transition-all duration-500 group-hover:-translate-y-1.5 ${theme.numeralColor}`}
         aria-hidden="true"
       >
         {formattedIndex}
       </div>
 
       {/* Main Liquid Glass Card */}
-      <div className={`relative z-10 liquid-glass rounded-3xl p-5 sm:p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
+      <div className={`relative z-10 liquid-glass rounded-3xl p-5 sm:p-6 transition-all duration-500 hover:-translate-y-1 ${
         claimed 
-          ? "ring-1 ring-white/30 brightness-110" 
-          : "hover:brightness-105"
+          ? "ring-1 ring-emerald-400/40 bg-emerald-950/10 shadow-[0_0_25px_rgba(52,211,153,0.15)]" 
+          : `${theme.cardGlow} hover:brightness-105`
       }`}>
         <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
           
           {/* Category Visual Thumbnail */}
           <Link
             href={`/hotspot/${hotspot.id}`}
-            className="relative h-24 w-full sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-2xl bg-black/60 border border-white/10 transition-transform duration-500 group-hover:scale-105"
+            className="relative h-24 w-full sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-2xl bg-black/60 border border-white/15 transition-transform duration-500 group-hover:scale-105 shadow-md"
           >
             {category && (
               <CategoryIllustration
@@ -54,10 +80,10 @@ export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: 
                 className="h-full w-full object-cover"
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
             <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-              <span className="text-[10px] font-body font-medium text-white/80 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-full">
-                {formatDistance(hotspot.distanceKm)}
+              <span className="text-[10px] font-body font-semibold text-emerald-300 bg-black/80 border border-emerald-500/30 px-2 py-0.5 rounded-full backdrop-blur-xs">
+                📍 {formatDistance(hotspot.distanceKm)}
               </span>
             </div>
           </Link>
@@ -69,10 +95,13 @@ export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: 
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <div className="flex items-center gap-2">
                   <span className="liquid-glass rounded-full px-2.5 py-0.5 text-[10px] font-body text-white/60">
-                    Hotspot #{hotspot.id.slice(0, 5)}
+                    #{hotspot.id.slice(0, 5)}
                   </span>
-                  <span className="liquid-glass rounded-full px-2.5 py-0.5 text-[10px] font-body font-medium text-white/80">
-                    {severity.label}
+                  <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-body font-semibold capitalize backdrop-blur-md ${theme.categoryBadge}`}>
+                    {category?.label ?? "Hotspot"}
+                  </span>
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-body font-semibold capitalize ${severityBadge}`}>
+                    {hotspot.severity}
                   </span>
                 </div>
 
@@ -90,7 +119,7 @@ export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: 
               </Link>
 
               {/* Location / Ward */}
-              <p className="mt-1 flex items-center gap-1.5 text-xs text-white/60 font-body font-light">
+              <p className="mt-1 flex items-center gap-1.5 text-xs text-white/70 font-body font-light">
                 <MapPin size={12} className="text-white/40 shrink-0" />
                 <span>{hotspot.ward} · Delhi Ward Zone</span>
               </p>
@@ -99,11 +128,11 @@ export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: 
             {/* Bottom Meta & Action */}
             <div className="flex items-center justify-between border-t border-white/10 pt-3 mt-1">
               <div>
-                <span className="text-[10px] uppercase font-body tracking-wider text-white/40 block">
+                <span className="text-[10px] uppercase font-body font-medium tracking-wider text-white/40 block">
                   Reward Payout
                 </span>
-                <div className="flex items-center gap-0.5 text-2xl sm:text-3xl font-heading italic text-white leading-none mt-0.5">
-                  <IndianRupee size={18} strokeWidth={2} />
+                <div className={`flex items-center gap-0.5 text-2xl sm:text-3xl font-heading italic leading-none mt-0.5 ${theme.payoutColor}`}>
+                  <IndianRupee size={18} strokeWidth={2.5} />
                   <span>{hotspot.payout}</span>
                 </div>
               </div>
@@ -113,7 +142,7 @@ export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: 
                 {claimed ? (
                   <Link
                     href={`/hotspot/${hotspot.id}`}
-                    className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-white text-black px-5 py-2.5 text-xs font-body font-semibold transition-all hover:bg-white/90 hover:scale-105 active:scale-95 shadow-md"
+                    className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-emerald-400 text-black px-5 py-2.5 text-xs font-body font-semibold transition-all hover:bg-emerald-300 hover:scale-105 active:scale-95 shadow-lg shadow-emerald-400/20"
                   >
                     <Check size={14} strokeWidth={2.5} />
                     <span>Finish Cleanup</span>
@@ -123,12 +152,12 @@ export default function JobCard({ hotspot, index, claimed, claiming, onClaim }: 
                     type="button"
                     onClick={onClaim}
                     disabled={claiming}
-                    className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full liquid-glass-strong px-5 py-2.5 text-xs font-body font-semibold text-white transition-all hover:brightness-125 hover:scale-105 active:scale-95 disabled:opacity-50"
+                    className="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-white text-black px-5 py-2.5 text-xs font-body font-semibold transition-all hover:bg-white/90 hover:scale-105 active:scale-95 disabled:opacity-50 shadow-md hover:shadow-xl"
                   >
                     {claiming ? (
-                      <Loader2 size={13} className="animate-spin" />
+                      <Loader2 size={13} className="animate-spin text-black" />
                     ) : (
-                      <Sparkles size={13} />
+                      <Sparkles size={13} className="text-amber-600" />
                     )}
                     <span>{claiming ? "Claiming…" : "Claim Job"}</span>
                     <ArrowUpRight size={13} />
